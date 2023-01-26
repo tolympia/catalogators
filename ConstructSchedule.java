@@ -5,7 +5,7 @@ public class ConstructSchedule {
     private List<Courses> coursesInUniverse;
     private List<String> selectedCourses; 
     private List<String> pastCourses; //coursesTaken = pastCourses
-    prvate int risingGrade;
+    private int risingGrade;
 
     public ConstructSchedule(int risingGrade){
         this.risingGrade = risingGrade;
@@ -33,27 +33,27 @@ public class ConstructSchedule {
     }
 
     //math
-    public String chooseScience(int risingGrade, List<String> coursesTaken, List<Courses> mathCourses){
+    public String chooseMath(int risingGrade, List<String> coursesTaken, List<Courses> mathCourses){
         pass;
     }
 
     //english
-    public String chooseScience(int risingGrade, List<String> coursesTaken, List<Courses> englishCourses){
+    public String chooseEnglish(int risingGrade, List<String> coursesTaken, List<Courses> englishCourses){
         pass;
     }
 
     //language
-    public String chooseScience(int risingGrade, List<String> coursesTaken, List<Courses> languageCourses){
+    public String chooseLanguage(int risingGrade, List<String> coursesTaken, List<Courses> languageCourses){
         pass;
     }
 
     //history
-    public String chooseScience(int risingGrade, List<String> coursesTaken, List<Courses> historyCourses){
+    public String chooseHistory(int risingGrade, List<String> coursesTaken, List<Courses> historyCourses){
         pass;
     }
 
     //extra
-    public String chooseScience(int risingGrade, List<String> coursesTaken, List<Courses> extraCourses){
+    public String chooseExtra(int risingGrade, List<String> coursesTaken, List<Courses> extraCourses){
         pass;
     }
 
