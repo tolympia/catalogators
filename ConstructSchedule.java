@@ -3,23 +3,19 @@ import java.io.*;
 public class ConstructSchedule {
 
     private List<Courses> coursesInUniverse;
-    private Map<Courses, ArrayList<Integer>> gradeRequirement;
-    private Map<Courses, ArrayList<String>> prerequisites;
-    private List<String> selectedCourses;
-    private List<String> pastCourses; 
+    private List<String> selectedCourses; 
+    private List<String> pastCourses; //coursesTaken = pastCourses
+    prvate int risingGrade;
 
-    public ConstructSchedule(){
+    public ConstructSchedule(int risingGrade){
+        this.risingGrade = risingGrade;
+    }
+
+    public Courses parseInput(String pathname){
         pass;
     }
 
-    public Courses parseInputForCourses(String pathname){
-        pass;
-    }
-
-    public Map<Courses, ArrayList<String>> parseInputPrerequisites(String pathname){
-        pass;
-    }
-
+    // return a list of the classes that the user has already taken 
     public List<String> parseTranscript(File transcript){
         List <String> pastCourses = new ArrayList<>();
         Scanner transcriptScanner = new Scanner(transcript);
@@ -27,6 +23,7 @@ public class ConstructSchedule {
             String currentLine = transcriptScanner.nextLine();
             pastCourses.add(currentLine);
         }
+        transcriptScanner.close();
         return pastCourses;
     }
 
