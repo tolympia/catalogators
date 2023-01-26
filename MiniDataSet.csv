@@ -1,0 +1,18 @@
+﻿Department,Course Name,Prerequiste, Grade Levels
+Arts,AP Music Theory,Intro to Music Theory,"9, 10, 11, 12"
+Arts,Art and Design,none,"9, 10"
+Arts,Honors Ceramics II,"Art I, Ceramics I","9, 10, 11, 12"
+History,AP Art History,approval,"11, 12"
+History,AP Human Geography,approval,"11, 12"
+History,Honors Civil Rights,United States History,"11, 12"
+Science,AP Biology,"Honors Biology, Honors Precalculus, Honors Geometry","11, 12"
+Science,AP Environmental Science,"Science: B in Honors Biology or B+ in Biology and B in Honors Chemistry or B+ in Chemistry, or Honors Chemistry concurrently
+Departmental approval is necessary in all cases.","11, 12"
+Science,Engineering and Robotics,two years of science,11.12
+Math,Precalculus Accelerated,Algebra II Accelerated ,12
+Math,AP Calculus AB,Precalculus Accelerated,12
+World Lanuages,Spanish IV,Spanish III,"11, 12"
+World Lanuages,Honors French IV,Honors French III,"11, 12"
+World Lanuages,Italian III,Italian II,"11, 12"
+English,English XI,none,11
+English,English XII,none,12
