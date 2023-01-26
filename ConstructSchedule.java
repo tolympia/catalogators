@@ -20,8 +20,14 @@ public class ConstructSchedule {
         pass;
     }
 
-    public List<String> parseTranscript(String pathname){
-        pass;
+    public List<String> parseTranscript(File transcript){
+        List <String> pastCourses = new ArrayList<>();
+        Scanner transcriptScanner = new Scanner(transcript);
+        while (transcriptScanner.hasNextLine()){
+            String currentLine = transcriptScanner.nextLine();
+            pastCourses.add(currentLine);
+        }
+        return pastCourses;
     }
 
     //science
