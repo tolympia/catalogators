@@ -49,7 +49,34 @@ public class ConstructSchedule {
 
     //science
     public String chooseScience(int risingGrade, List<String> coursesTaken, List<Courses> scienceCourses){
-        pass;
+        //wouldn't matter if its same student but would overall list of scienceCourses change back for a new student?
+        for(int i = 0; i<scienceCourses.length; i++){
+            //using courses class getter method and comparing to grade; removing classes where they are not in an elegiable grade
+            if(risingGrade < scienceCourses.get(i).getGrade()){
+                scienceCourses.remove(i);
+                i--;
+            }
+            for(int j = 0; j<coursesTaken.length; j++){
+                //removing classes already taken from the available list
+                if(scienceCourses.get(i).equals(coursesTaken.get(j))){
+                    scienceCourses.remove(i);
+                    i--;
+                }
+                //comparing to prereqs (need help understanding logic with the map)
+                if(scienceCourses.get(i).getPrerequsites().contains())
+                //checking if prereqs contain any of the past courses they have taken/vis versa
+            }
+        }
+        //calling helper method to choose the random course and return it as a String
+        return randomPick(scienceCourses);
+
+        /*questions for the group:
+        - are we hard coding these based on the GA schedule or leaving it more general
+            - ex. technically if I do it by rising grade I could hard code only to pick biology or we could just code a program to do that but it work more generally
+        - is altering scienceCourses going to alter it if the program is run for another student (I dont think so but I want to be sure)
+        - still a little confused about how we are comparing to the prereq map so we'll go over that at the next meet up
+        */
+
     }
 
     //math
@@ -75,6 +102,12 @@ public class ConstructSchedule {
     //extra
     public String chooseExtra(int risingGrade, List<String> coursesTaken, List<Courses> extraCourses){
         pass;
+    }
+
+    //help methods
+    public String randomPick(List<Courses> list){
+        int index = Math.random()*list.length;
+        return String.valueOf(list.get(index));
     }
 
 }
