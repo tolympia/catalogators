@@ -40,6 +40,39 @@ public class ConstructSchedule {
                 Map <Integer, <ArrayList <String>>> finalMapOfPrereqs = new HashMap <> ();
                 // save the list of prereqs to an array list
                 String [] listOfPrereqsArray = currentLineAL.get(0).split(",");
+                // making it into an arraylist so that .contains can be used
+                ArrayList <String> listOfPrereqsAL =  new ArrayList <String> (Arrays.asList(listOfPrereqsArray));
+                // iterate through each element in this arrayList
+                for(int i = 0; i < listOfPrereqsAL.size(); i++){
+                    ArrayList <String> currentRowToBeAddedToMap = new ArrayList <> ();
+                    // if there is an "or," extract the two different class options
+                    if(listOfPrereqsAL.get(i).contains("or")){
+                        // save the index of the "or"
+                        int indexOfOr = listOfPrereqsAl.get(i).indexOf("or");
+                        // save the index so it does not include the space between the course name and the "or"
+                        indexOfOr = indexOfOr - 1;
+                        String firstClassInOr = listOfPrereqsAL.get(i).substring(0, indexOfOr);
+                        // add it to the currentRow variable
+                        currentRowToBeAddedToMap.add(firstClassInOr);
+                        // the "+ 4" is so that this second substring does not contain "or" or the space after it
+                        String secondClassInOr = listOfPrereqsAl.get(i).substring(indexOfOr + 4);
+                        currentRowToBeAddedToMap.add(secondClassInOr);
+                    }
+                    else{
+                        // if there is no "or," just add the current class string to the currentRow variable
+                        currentRowToBeAddedToMap.add(listOfPrereqsAL.get(i));
+                    }
+                    // add the row to the map (i will serve as a dummy key)
+                    finalMapOfPrereqs.add(i, currentRowToBeAddedToMap);
+                }
+                // set the prereq list to the prereq map
+                currentCourseObj.setPrereqList(finalMapOfPrereqs);
+                // remove the prereq column from current line so there is a new element at 0
+                currentLineAL.remove(0);
+                ArrayList <String> gradesAvailableTo = currentLineAL.get(0);
+                currentCourseObj.setGradesAvailableTo(gradesAvailableTo);
+                // add this course object to listOfCourseObjs
+                listOfCourseObjs.add(currentCourseObj);
             }
         }
         /*
@@ -54,7 +87,7 @@ public class ConstructSchedule {
         3. close scanners
         4. return the listOfCourseObjs
             */
-        pass;
+        return listOfCourseObjs;
     }
 
     // return a list of the classes that the user has already taken 
