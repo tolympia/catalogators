@@ -48,27 +48,49 @@ public class ConstructSchedule {
     }
 
     //science
-    public String chooseScience(int risingGrade, List<String> coursesTaken, List<Courses> scienceCourses){
-        //wouldn't matter if its same student but would overall list of scienceCourses change back for a new student?
-        for(int i = 0; i<scienceCourses.length; i++){
+    public String chooseSubject(int risingGrade, String department){
+        //creating list that contains the courses of the subject currently being chosen
+        List<Course> subjectCourses = getDepartmentList(department);
+        //creating list of courses available to particular student to be randomly indexed through to pick class at the end of the method
+        List<Course> availableCourses = new List<>();
+        //going through subjectCourses and seeing what is available to student based on their rising grade (see below)
+            //this loop gets all the available courses based on rising grade, then rest of code we filter out
+        for(int i = 0; i<subjectCourses.length; i++){
             //using courses class getter method and comparing to grade; removing classes where they are not in an elegiable grade
-            if(risingGrade < scienceCourses.get(i).getGrade()){
-                scienceCourses.remove(i);
-                i--;
+            if(subjectCourses.get(i).getGrade().contains(risingGrade)){
+                availableCourses.add(i);
             }
-            for(int j = 0; j<coursesTaken.length; j++){
+        }
+        //set of the prereq keys
+        Map<Integer, String> prereqs = availableCourses.getPrerequsites()
+        Set<Integer> keys = prereqs.keySet();
+
+        //this loop is for filtering availableCourses based on past courses taken & prereqs
+        for(int i = 0; i<availableCourses.length; i++){
+            //loop to compare to past transcript/past courses
+            for(int j = 0; j<pastCourses.length; j++){
                 //removing classes already taken from the available list
-                if(scienceCourses.get(i).equals(coursesTaken.get(j))){
-                    scienceCourses.remove(i);
+                if(availableCourses.get(i).equals(pastCourses.get(j))){
+                    availableCourses.remove(i);
                     i--;
                 }
-                //comparing to prereqs (need help understanding logic with the map)
-                if(scienceCourses.get(i).getPrerequsites().contains())
+                for(List<String> ors : keys){
+                    if(!prereqs.get(ors).contains(pastCourses.get(j))){
+                        availableCourses.remove(i);
+                        
+                    }
+                }
+
                 //checking if prereqs contain any of the past courses they have taken/vis versa
+                // iterate through all of their past courses
+                // iterate through all of the keys of the prerequisite map 
+                // make sure that each key contains at least ONE prerequisite
+                // if each key contains at least one, the course object is not removed 
             }
         }
         //calling helper method to choose the random course and return it as a String
-        return randomPick(scienceCourses);
+        int index = Math.random()*list.length;
+        return String.valueOf(list.get(index));
 
         /*questions for the group:
         - are we hard coding these based on the GA schedule or leaving it more general
@@ -79,45 +101,15 @@ public class ConstructSchedule {
 
     }
 
-    //math
-    public String chooseMath(int risingGrade, List<String> coursesTaken, List<Courses> mathCourses){
-        pass;
-    }
-
-    //english
-    public String chooseEnglish(int risingGrade, List<String> coursesTaken, List<Courses> englishCourses){
-        String englishChoice = "";
-        if(risingGrade  == 9){
-            return "English IX";
+    //helper method to get the department of the subject we want
+    public List<Course> getDepartmentList(String department){
+        List<Course> departmentList = List<>();
+        for(int i = 0; i<coursesInUniverse.length; i++){
+            if(coursesInUniverse.get(i).getDepartment().equals(subject)){
+                departmentList.add(i);
+            }
         }
-        else if(risingGrade == 10){
-            return "English X";
-        }
-        else if(risingGrade == 11){
-            return "English XI";
-        }
-        
-        }
-
-    //language
-    public String chooseLanguage(int risingGrade, List<String> coursesTaken, List<Courses> languageCourses){
-        pass;
-    }
-
-    //history
-    public String chooseHistory(int risingGrade, List<String> coursesTaken, List<Courses> historyCourses){
-        pass;
-    }
-
-    //extra
-    public String chooseExtra(int risingGrade, List<String> coursesTaken, List<Courses> extraCourses){
-        pass;
-    }
-
-    //help methods
-    public String randomPick(List<Courses> list){
-        int index = Math.random()*list.length;
-        return String.valueOf(list.get(index));
+        return departmentList;
     }
 
 }
