@@ -142,4 +142,20 @@ public class ConstructSchedule {
         return String.valueOf(list.get(index));
     }
 
+    public void generateCoursesNextYear(){
+
+    }
+
+    public void generateCoursesAsFile(List <String> coursesList){
+        //create a file that contains all of the courses for next year
+        //input is courses list-the list that was returned containing all of the courses for next year
+        Printstream p = new PrintStream("CoursesNextYear.txt");
+        p.println("these are your recommended courses for next year: ");
+        // for every course in coursesList add to the printstream on a new line
+        for(String course: coursesList){
+            p.println(course);
+        }
+        p.close();
+    }
+
 }
