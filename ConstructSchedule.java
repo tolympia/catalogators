@@ -12,15 +12,37 @@ public class ConstructSchedule {
     }
     //Takes in the course catalogue file and returns a list of course objects that contain all of the necessary information from the file
     public List <Course> parseInput(File courseCatalogue){
-        /* 
-        1. create a scanner to read in the course catalogue
-        2. create holder list of course objects listOfCourseObjs
-        2. use a while loop to iterate through the file line by line (until it has next line), use 1 row at a time
-            a. create a new default course object to hold information that will be extracted call it currentCourseObj, create a lineScanner/nested while loop to scan through each line (use .split()), save as currentLine
-            b. change currentLine into an arrayList (rather than an arrray, so deletions can be made)
-            b. set the "department" attribute in currentCourseObj to currentline.get(0), delete currentLine.get(0)
-            d. set the courseName attribute in currentCourseObj to currentLine.get(0), delete currentLine.get(0)
-            e. create holder arrayList of arrayLists that will hold the 2D prerequisite list, call it finalListOfPrereqs
+       // 1. create a scanner to read in the course catalogue
+        Scanner catalogueScanner = new Scanner (courseCatalogue);
+        //2. create holder list of course objects listOfCourseObjs */ 
+        ArrayList <Course> listOfCourseObjs = new ArrayList <> ();
+        //2. use a while loop to iterate through the file line by line (until it has next line), use 1 row at a time
+        while(catalogueScanner.hasNextLine()){
+            //create a new default course object to hold information that will be extracted
+            Course currentCourseObj = new Course();
+            //get one row from the dataset
+            String [] currentLineArray = catalogueScanner.nextLine().split(",");
+            //change currentLine into an arrayList (rather than an arrray, so deletions can be made)
+            ArrayList <String> currentLineAL  = new ArrayList <String> (Arrays.asList(currentLineArray));
+            // create a lineScanner to sift through each row of the dataset
+            Scanner lineScanner = new Scanner(currentLineAL);
+            while(lineScanner.hasNext()){
+                // set the department to the first index of currentLineAL
+                String department = currentLineAL.get(0);
+                currentCourseObj.setDepartment(department);
+                // remove the department attribute
+                currentLineAL.remove(0);
+                // set the course name to the first index of currentLineAL 
+                String currentCourseName = currentLineAL.get(0);
+                currentCourseObj.setCourseName(currentCourseName);
+                currentLineAL.remove(0);
+                //create holder map that will hold the final list of prereqs
+                Map <Integer, <ArrayList <String>>> finalMapOfPrereqs = new HashMap <> ();
+                // save the list of prereqs to an array list
+                String [] listOfPrereqsArray = currentLineAL.get(0).split(",");
+            }
+        }
+        /*
             f. save currentLine.get(0) to a new String [] split by commas, call it listOfPrereqs
                 g. use a for loop (for the length of listOfPrereqs) iterate through each element
                 h. if listOfPrereqs[i].contains("or") != 0, create a substring of the first class and a substring of the second class, add both to finalListOfPrereqs
@@ -96,7 +118,7 @@ public class ConstructSchedule {
         else if(risingGrade == 11){
             return "English XI";
         }
-        
+
         }
 
     //language
