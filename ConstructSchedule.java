@@ -86,8 +86,18 @@ public class ConstructSchedule {
 
     //english
     public String chooseEnglish(int risingGrade, List<String> coursesTaken, List<Courses> englishCourses){
-        pass;
-    }
+        String englishChoice = "";
+        if(risingGrade  == 9){
+            return "English IX";
+        }
+        else if(risingGrade == 10){
+            return "English X";
+        }
+        else if(risingGrade == 11){
+            return "English XI";
+        }
+        
+        }
 
     //language
     public String chooseLanguage(int risingGrade, List<String> coursesTaken, List<Courses> languageCourses){
