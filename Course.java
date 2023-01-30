@@ -34,13 +34,10 @@ public class Course {
 
     // default constructor of a course object
     public Course() {
-        this.courseName = courseName;
-        this.gradesAvailableTo = gradesAvailableTo;
-        this.department = department;
-        this.prerequisites = prerequisites;
+       
     }
 
-    // Constructor of a course object (All in one)
+    // Constructor of a course object (arg constructor)
      public Course(String courseName, ArrayList<String> gradesAvailableTo, String department, Map<Integer, String> prerequisites) {
         this.courseName = courseName;
         this.gradesAvailableTo = gradesAvailableTo;
