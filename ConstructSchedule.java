@@ -164,8 +164,21 @@ public class ConstructSchedule {
     }
 
 
+<<<<<<< HEAD
     public static void generateCoursesNextYear(){
 
+=======
+    public List<String> generateCoursesNextYear(int risingGrade){
+        //generate the courses for next year
+        List<String> coursesNextYear = new List<>();
+        //create a list of all of the departments
+        List<String> departments = new List<>(Arrays.asList("Arts", "Science", "History", "Math", "Science", "World Languages", "English"));
+        //iterate through each department
+        for(String department: departments){
+            coursesNextYear.add(chooseSubject(risingGrade, department));
+        }
+        return coursesNextYear;
+>>>>>>> 8fbc3f923a7e1ea30cb900c5ba5ba1946749e650
     }
 
     public static void generateCoursesAsFile(List <String> coursesList){
