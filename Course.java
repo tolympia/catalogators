@@ -14,23 +14,23 @@ public class Course {
 
         // creating tester map for prerequisites
         Map<Integer, String> testerPrereqs = new HashMap<Integer, String>();
-        testerPrereqs.put(1, "Geometry");
-        testerPrereqs.put(2, "Algebra II");
+        //testerPrereqs.put(1, "Geometry");
+        //testerPrereqs.put(2, "Algebra II");
 
         // creating new course object (dummy), setting its instance variables, and printing the course
         Course gaCourse = new Course();
-        gaCourse.setCourseName("Calculus");
-        gaCourse.setGradesAvailableTo(testerGradesAvailableTo);
-        gaCourse.setDepartment("Math");
-        gaCourse.setPrerequisites(testerPrereqs);
-        System.out.println(gaCourse.toString());
+        //gaCourse.setCourseName("Calculus");
+        //gaCourse.setGradesAvailableTo(testerGradesAvailableTo);
+        //gaCourse.setDepartment("Math");
+       // gaCourse.setPrerequisites(testerPrereqs);
+        //System.out.println(gaCourse.toString());
     }
 
     // instance variables
     private String courseName;
     private ArrayList<String> gradesAvailableTo;
     private String department;
-    private Map<Integer, String> prerequisites;
+    private Map<Integer, ArrayList <String>> prerequisites;
 
     // default constructor of a course object
     public Course() {
@@ -38,7 +38,7 @@ public class Course {
     }
 
     // Constructor of a course object (arg constructor)
-     public Course(String courseName, ArrayList<String> gradesAvailableTo, String department, Map<Integer, String> prerequisites) {
+     public Course(String courseName, ArrayList<String> gradesAvailableTo, String department, Map<Integer, ArrayList <String>> prerequisites) {
         this.courseName = courseName;
         this.gradesAvailableTo = gradesAvailableTo;
         this.department = department;
@@ -59,7 +59,7 @@ public class Course {
         this.department = dprtmnt;
     }
 
-    public void setPrerequisites(Map<Integer, String> prereqs) {
+    public void setPrerequisites(Map<Integer, ArrayList <String>> prereqs) {
         this.prerequisites = prereqs;
     }
 
@@ -78,7 +78,7 @@ public class Course {
         return department;
     }
 
-    public Map<Integer, String> getPrerequisites() {
+    public Map<Integer, ArrayList <String>> getPrerequisites() {
         return prerequisites;
     }
 
