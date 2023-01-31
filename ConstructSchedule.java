@@ -2,88 +2,74 @@ import java.util.*;
 import java.io.*;
 public class ConstructSchedule {
 
-    private List<Course> coursesInUniverse;
+    private static List<Course> coursesInUniverse;
     private List<String> selectedCourses; 
     private List<String> pastCourses; //coursesTaken = pastCourses
     private int risingGrade;
 
-    public ConstructSchedule(int risingGrade){
-        this.risingGrade = risingGrade;
-    }
 
     public static void main(String[] args){
         File courseCat = new File("MiniDataSet.csv");
-        coursesInUniverse = parseInput(courseCatalogue);
-        for (int i = 0; i < coursesInUniverse.length(); i++){
+        coursesInUniverse = parseInput(courseCat);
+        for (int i = 0; i < coursesInUniverse.size(); i++){
             System.out.println(coursesInUniverse.get(i).getCourseName());
         }
     }
 
     //Takes in the course catalogue file and returns a list of course objects that contain all of the necessary information from the file
-    public List <Course> parseInput(File courseCatalogue){
+    public static List <Course> parseInput(File courseCatalogue){
        // 1. create a scanner to read in the course catalogue
         Scanner catalogueScanner = new Scanner (courseCatalogue);
         //2. create holder list of course objects listOfCourseObjs */ 
         ArrayList <Course> listOfCourseObjs = new ArrayList <> ();
         //2. use a while loop to iterate through the file line by line (until it has next line), use 1 row at a time
         while(catalogueScanner.hasNextLine()){
-            //create a new default course object to hold information that will be extracted
-            Course currentCourseObj = new Course();
             //get one row from the dataset
             String [] currentLineArray = catalogueScanner.nextLine().split(",");
             //change currentLine into an arrayList (rather than an arrray, so deletions can be made)
-            ArrayList <String> currentLineAL  = new ArrayList <String> (Arrays.asList(currentLineArray));
-            // create a lineScanner to sift through each row of the dataset
-            Scanner lineScanner = new Scanner(currentLineAL);
-            while(lineScanner.hasNext()){
-                // set the department to the first index of currentLineAL
-                String department = currentLineAL.get(0);
-                currentCourseObj.setDepartment(department);
-                // remove the department attribute
-                currentLineAL.remove(0);
-                // set the course name to the first index of currentLineAL 
-                String currentCourseName = currentLineAL.get(0);
-                currentCourseObj.setCourseName(currentCourseName);
-                currentLineAL.remove(0);
-                //create holder map that will hold the final list of prereqs
-                Map <Integer, ArrayList <String>> finalMapOfPrereqs = new HashMap <> ();
-                // save the list of prereqs to an array list
-                String [] listOfPrereqsArray = currentLineAL.get(0).split(",");
-                // making it into an arraylist so that .contains can be used
-                ArrayList <String> listOfPrereqsAL =  new ArrayList <String> (Arrays.asList(listOfPrereqsArray));
-                // iterate through each element in this arrayList
-                for(int i = 0; i < listOfPrereqsAL.size(); i++){
-                    ArrayList <String> currentRowToBeAddedToMap = new ArrayList <> ();
-                    // if there is an "or," extract the two different class options
-                    if(listOfPrereqsAL.get(i).contains("or")){
-                        // save the index of the "or"
-                        int indexOfOr = listOfPrereqsAl.get(i).indexOf("or");
-                        // save the index so it does not include the space between the course name and the "or"
-                        indexOfOr = indexOfOr - 1;
-                        String firstClassInOr = listOfPrereqsAL.get(i).substring(0, indexOfOr);
-                        // add it to the currentRow variable
-                        currentRowToBeAddedToMap.add(firstClassInOr);
-                        // the "+ 4" is so that this second substring does not contain "or" or the space after it
-                        String secondClassInOr = listOfPrereqsAl.get(i).substring(indexOfOr + 4);
-                        currentRowToBeAddedToMap.add(secondClassInOr);
-                    }
-                    else{
+            ArrayList <String> currentLineAL  = new ArrayList <> (Arrays.asList(currentLineArray));
+            // set the department to the first index of currentLineAL
+            String department = currentLineAL.get(0);
+            // remove the department attribute
+            // set the course name to the first index of currentLineAL 
+            String currentCourseName = currentLineAL.get(1);
+            //create holder map that will hold the final list of prereqs
+            Map <Integer, ArrayList <String>> finalMapOfPrereqs = new HashMap <> ();
+            // save the list of prereqs to an array list
+            String [] listOfPrereqsArray = currentLineAL.get(2).split(",");
+            // making it into an arraylist so that .contains can be used
+            ArrayList <String> listOfPrereqsAL =  new ArrayList <String> (Arrays.asList(listOfPrereqsArray));
+            // iterate through each element in this arrayList
+            for(int i = 0; i < listOfPrereqsAL.size(); i++){
+                ArrayList <String> currentRowToBeAddedToMap = new ArrayList <> ();
+                // if there is an "or," extract the two different class options
+                if(listOfPrereqsAL.get(i).contains("or")){
+                    // save the index of the "or"
+                    int indexOfOr = listOfPrereqsAL.get(i).indexOf("or");
+                    // save the index so it does not include the space between the course name and the "or"
+                    indexOfOr = indexOfOr - 1;
+                    String firstClassInOr = listOfPrereqsAL.get(i).substring(0, indexOfOr);
+                    // add it to the currentRow variable
+                    currentRowToBeAddedToMap.add(firstClassInOr);
+                    // the "+ 4" is so that this second substring does not contain "or" or the space after it
+                     String secondClassInOr = listOfPrereqsAL.get(i).substring(indexOfOr + 4);
+                    currentRowToBeAddedToMap.add(secondClassInOr);
+                }
+                else{
                         // if there is no "or," just add the current class string to the currentRow variable
                         currentRowToBeAddedToMap.add(listOfPrereqsAL.get(i));
-                    }
-                    // add the row to the map (i will serve as a dummy key)
-                    finalMapOfPrereqs.add(i, currentRowToBeAddedToMap);
                 }
+                    // add the row to the map (i will serve as a dummy key)
+                    finalMapOfPrereqs.put(i, currentRowToBeAddedToMap);
+            }
                 // set the prereq list to the prereq map
-                currentCourseObj.setPrereqList(finalMapOfPrereqs);
                 // remove the prereq column from current line so there is a new element at 0
-                currentLineAL.remove(0);
-                ArrayList <String> gradesAvailableTo = currentLineAL.get(0);
-                currentCourseObj.setGradesAvailableTo(gradesAvailableTo);
+                String [] gradesAvailableToArray = currentLineAL.get(3).split(",");
+                ArrayList <String> gradesAvailableToAL = new ArrayList <String> (Arrays.asList(gradesAvailableToArray));
+                Course currentCourseObj = new Course(currentCourseName, gradesAvailableToAL, department, finalMapOfPreqs);
                 // add this course object to listOfCourseObjs
                 listOfCourseObjs.add(currentCourseObj);
             }
-        }
         /*
             f. save currentLine.get(0) to a new String [] split by commas, call it listOfPrereqs
                 g. use a for loop (for the length of listOfPrereqs) iterate through each element
@@ -100,7 +86,7 @@ public class ConstructSchedule {
     }
 
     // return a list of the classes that the user has already taken 
-    public List<String> parseTranscript(File transcript){
+    public static List<String> parseTranscript(File transcript){
         List <String> pastCourses = new ArrayList<>();
         Scanner transcriptScanner = new Scanner(transcript);
         while (transcriptScanner.hasNextLine()){
@@ -112,14 +98,14 @@ public class ConstructSchedule {
     }
 
     //science
-    public String chooseSubject(int risingGrade, String department){
+    public static String chooseSubject(int risingGrade, String department){
         //creating list that contains the courses of the subject currently being chosen
         List<Course> subjectCourses = getDepartmentList(department);
         //creating list of courses available to particular student to be randomly indexed through to pick class at the end of the method
-        List<Course> availableCourses = new List<>();
+        List<Course> availableCourses = new ArrayList<>();
         //going through subjectCourses and seeing what is available to student based on their rising grade (see below)
             //this loop gets all the available courses based on rising grade, then rest of code we filter out
-        for(int i = 0; i<subjectCourses.length; i++){
+        for(int i = 0; i<subjectCourses.size(); i++){
             //using courses class getter method and comparing to grade; removing classes where they are not in an elegiable grade
             if(subjectCourses.get(i).getGrade().contains(risingGrade)){
                 availableCourses.add(i);
@@ -127,13 +113,13 @@ public class ConstructSchedule {
         }
 
         //this loop is for filtering availableCourses based on past courses taken & prereqs
-        for(int i = 0; i<availableCourses.length; i++){
+        for(int i = 0; i<availableCourses.size(); i++){
             //prereq map for that course
             Map<Integer, String> prereqs = availableCourses.get(i).getPrerequsites();
             //set of the prereq keys
             Set<Integer> keys = prereqs.keySet();
             //loop to compare to past transcript/past courses
-            for(int j = 0; j<pastCourses.length; j++){
+            for(int j = 0; j<pastCourses.size(); j++){
                 //removing classes already taken from the available list
                 if(availableCourses.get(i).equals(pastCourses.get(j))){
                     availableCourses.remove(i);
@@ -154,7 +140,7 @@ public class ConstructSchedule {
             }
         }
         //calling helper method to choose the random course and return it as a String
-        int index = Math.random()*availableCourses.length;
+        int index = Math.random()*availableCourses.size();
         return String.valueOf(availableCourses.get(index));
 
         /*questions for the group:
@@ -167,9 +153,9 @@ public class ConstructSchedule {
     }
 
     //helper method to get the department of the subject we want
-    public ArrayList <Course> getDepartmentList(String department){
+    public static ArrayList <Course> getDepartmentList(String department){
         ArrayList <Course> departmentList = new ArrayList<>();
-        for(int i = 0; i<coursesInUniverse.length; i++){
+        for(int i = 0; i<coursesInUniverse.size(); i++){
             if(coursesInUniverse.get(i).getDepartment().equals(subject)){
                 departmentList.add(i);
             }
@@ -178,11 +164,11 @@ public class ConstructSchedule {
     }
 
 
-    public void generateCoursesNextYear(){
+    public static void generateCoursesNextYear(){
 
     }
 
-    public void generateCoursesAsFile(List <String> coursesList){
+    public static void generateCoursesAsFile(List <String> coursesList){
         //create a file that contains all of the courses for next year
         //input is courses list-the list that was returned containing all of the courses for next year
         Printstream p = new PrintStream("CoursesNextYear.txt");
