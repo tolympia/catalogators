@@ -8,16 +8,16 @@ public class ConstructSchedule {
     private int risingGrade;
 
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws FileNotFoundException {
         File courseCat = new File("MiniDataSet.csv");
         coursesInUniverse = parseInput(courseCat);
         for (int i = 0; i < coursesInUniverse.size(); i++){
-            System.out.println(coursesInUniverse.get(i).getCourseName());
+            System.out.println(coursesInUniverse.get(i).getCourseName() + " Prereqs:"  + coursesInUniverse.get(i).getPrerequisites());
         }
     }
 
     //Takes in the course catalogue file and returns a list of course objects that contain all of the necessary information from the file
-    public static List <Course> parseInput(File courseCatalogue){
+    public static List <Course> parseInput(File courseCatalogue) throws FileNotFoundException{
        // 1. create a scanner to read in the course catalogue
         Scanner catalogueScanner = new Scanner (courseCatalogue);
         //2. create holder list of course objects listOfCourseObjs */ 
@@ -43,11 +43,10 @@ public class ConstructSchedule {
             for(int i = 0; i < listOfPrereqsAL.size(); i++){
                 ArrayList <String> currentRowToBeAddedToMap = new ArrayList <> ();
                 // if there is an "or," extract the two different class options
-                if(listOfPrereqsAL.get(i).contains("or")){
+                if(listOfPrereqsAL.get(i).contains(" or ")){
                     // save the index of the "or"
-                    int indexOfOr = listOfPrereqsAL.get(i).indexOf("or");
+                    int indexOfOr = listOfPrereqsAL.get(i).indexOf(" or ");
                     // save the index so it does not include the space between the course name and the "or"
-                    indexOfOr = indexOfOr - 1;
                     String firstClassInOr = listOfPrereqsAL.get(i).substring(0, indexOfOr);
                     // add it to the currentRow variable
                     currentRowToBeAddedToMap.add(firstClassInOr);
@@ -66,7 +65,7 @@ public class ConstructSchedule {
                 // remove the prereq column from current line so there is a new element at 0
                 String [] gradesAvailableToArray = currentLineAL.get(3).split(",");
                 ArrayList <String> gradesAvailableToAL = new ArrayList <String> (Arrays.asList(gradesAvailableToArray));
-                Course currentCourseObj = new Course(currentCourseName, gradesAvailableToAL, department, finalMapOfPreqs);
+                Course currentCourseObj = new Course(currentCourseName, gradesAvailableToAL, department, finalMapOfPrereqs);
                 // add this course object to listOfCourseObjs
                 listOfCourseObjs.add(currentCourseObj);
             }
@@ -164,10 +163,10 @@ public class ConstructSchedule {
     }
 
 
-<<<<<<< HEAD
     public static void generateCoursesNextYear(){
 
-=======
+     }
+
     public List<String> generateCoursesNextYear(int risingGrade){
         //generate the courses for next year
         List<String> coursesNextYear = new List<>();
@@ -178,7 +177,6 @@ public class ConstructSchedule {
             coursesNextYear.add(chooseSubject(risingGrade, department));
         }
         return coursesNextYear;
->>>>>>> 8fbc3f923a7e1ea30cb900c5ba5ba1946749e650
     }
 
     public static void generateCoursesAsFile(List <String> coursesList){
