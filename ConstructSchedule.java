@@ -12,7 +12,11 @@ public class ConstructSchedule {
     }
 
     public static void main(String[] args){
-
+        File courseCat = new File("MiniDataSet.csv");
+        coursesInUniverse = parseInput(courseCatalogue);
+        for (int i = 0; i < coursesInUniverse.length(); i++){
+            System.out.println(coursesInUniverse.get(i).getCourseName());
+        }
     }
 
     //Takes in the course catalogue file and returns a list of course objects that contain all of the necessary information from the file
@@ -42,7 +46,7 @@ public class ConstructSchedule {
                 currentCourseObj.setCourseName(currentCourseName);
                 currentLineAL.remove(0);
                 //create holder map that will hold the final list of prereqs
-                Map <Integer, <ArrayList <String>>> finalMapOfPrereqs = new HashMap <> ();
+                Map <Integer, ArrayList <String>> finalMapOfPrereqs = new HashMap <> ();
                 // save the list of prereqs to an array list
                 String [] listOfPrereqsArray = currentLineAL.get(0).split(",");
                 // making it into an arraylist so that .contains can be used
@@ -138,6 +142,7 @@ public class ConstructSchedule {
                 for(List<String> ors : keys){
                     if(!prereqs.get(ors).contains(pastCourses.get(j))){
                         availableCourses.remove(i);
+                        i--;
                     }
                 }
 
@@ -162,8 +167,8 @@ public class ConstructSchedule {
     }
 
     //helper method to get the department of the subject we want
-    public List<Course> getDepartmentList(String department){
-        List<Course> departmentList = List<>();
+    public ArrayList <Course> getDepartmentList(String department){
+        ArrayList <Course> departmentList = new ArrayList<>();
         for(int i = 0; i<coursesInUniverse.length; i++){
             if(coursesInUniverse.get(i).getDepartment().equals(subject)){
                 departmentList.add(i);
