@@ -2,7 +2,7 @@ import java.util.*;
 import java.io.*;
 public class ConstructSchedule {
 
-    private List<Courses> coursesInUniverse;
+    private List<Course> coursesInUniverse;
     private List<String> selectedCourses; 
     private List<String> pastCourses; //coursesTaken = pastCourses
     private int risingGrade;
@@ -10,6 +10,11 @@ public class ConstructSchedule {
     public ConstructSchedule(int risingGrade){
         this.risingGrade = risingGrade;
     }
+
+    public static void main(String[] args){
+
+    }
+
     //Takes in the course catalogue file and returns a list of course objects that contain all of the necessary information from the file
     public List <Course> parseInput(File courseCatalogue){
        // 1. create a scanner to read in the course catalogue
@@ -116,12 +121,13 @@ public class ConstructSchedule {
                 availableCourses.add(i);
             }
         }
-        //set of the prereq keys
-        Map<Integer, String> prereqs = availableCourses.getPrerequsites()
-        Set<Integer> keys = prereqs.keySet();
 
         //this loop is for filtering availableCourses based on past courses taken & prereqs
         for(int i = 0; i<availableCourses.length; i++){
+            //prereq map for that course
+            Map<Integer, String> prereqs = availableCourses.get(i).getPrerequsites();
+            //set of the prereq keys
+            Set<Integer> keys = prereqs.keySet();
             //loop to compare to past transcript/past courses
             for(int j = 0; j<pastCourses.length; j++){
                 //removing classes already taken from the available list
@@ -132,7 +138,6 @@ public class ConstructSchedule {
                 for(List<String> ors : keys){
                     if(!prereqs.get(ors).contains(pastCourses.get(j))){
                         availableCourses.remove(i);
-                        
                     }
                 }
 
@@ -144,8 +149,8 @@ public class ConstructSchedule {
             }
         }
         //calling helper method to choose the random course and return it as a String
-        int index = Math.random()*list.length;
-        return String.valueOf(list.get(index));
+        int index = Math.random()*availableCourses.length;
+        return String.valueOf(availableCourses.get(index));
 
         /*questions for the group:
         - are we hard coding these based on the GA schedule or leaving it more general
