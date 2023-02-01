@@ -7,18 +7,24 @@ public class ConstructSchedule {
     private static List<String> pastCourses; //coursesTaken = pastCourses
     private int risingGrade;
 
-
+    // Main method that actually runs our code.
     public static void main(String[] args) throws FileNotFoundException {
         //adding scanner input for the rising grade of the user
-        Scanner sc = new Scanner();
+        /* Scanner sc = new Scanner();
         System.out.println("What grade are you entering?");
         int risingGrade = sc.nextLine();
-
+        */
         File courseCat = new File("MiniDataSet.csv");
         coursesInUniverse = parseInput(courseCat);
         for (int i = 0; i < coursesInUniverse.size(); i++){
-            System.out.println(coursesInUniverse.get(i).getCourseName() + " Prereqs:"  + coursesInUniverse.get(i).getPrerequisites());
+            System.out.println(coursesInUniverse.get(i).getCourseName() + " Prereqs:"  + coursesInUniverse.get(i).getGradesAvailableTo());
         }
+        // Testing the parseTranscript method individually 
+        File testerTranscript1 = new File("SampleTranscript.txt");
+        File testerTranscript2 = new File("SampleTranscript2.txt");
+       // System.out.println("Print out tester transcript #1: " + parseTranscript(testerTranscript1));
+        //System.out.println("Print out tester transcript #2: " + parseTranscript(testerTranscript2));
+        
     }
 
     //Takes in the course catalogue file and returns a list of course objects that contain all of the necessary information from the file
@@ -30,7 +36,7 @@ public class ConstructSchedule {
         //2. use a while loop to iterate through the file line by line (until it has next line), use 1 row at a time
         while(catalogueScanner.hasNextLine()){
             //get one row from the dataset
-            String [] currentLineArray = catalogueScanner.nextLine().split(",");
+            String [] currentLineArray = catalogueScanner.nextLine().split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
             //change currentLine into an arrayList (rather than an arrray, so deletions can be made)
             ArrayList <String> currentLineAL  = new ArrayList <> (Arrays.asList(currentLineArray));
             // set the department to the first index of currentLineAL
@@ -44,6 +50,7 @@ public class ConstructSchedule {
             String [] listOfPrereqsArray = currentLineAL.get(2).split(",");
             // making it into an arraylist so that .contains can be used
             ArrayList <String> listOfPrereqsAL =  new ArrayList <String> (Arrays.asList(listOfPrereqsArray));
+            System.out.println("LIST OF PREREQS:" + listOfPrereqsAL);
             // iterate through each element in this arrayList
             for(int i = 0; i < listOfPrereqsAL.size(); i++){
                 ArrayList <String> currentRowToBeAddedToMap = new ArrayList <> ();
