@@ -5,7 +5,7 @@
 With a diverse range of over 200 possible courses to choose from, it can often be overwhelming for GA upper school students to choose which courses to take over their four years in high school. Due to the large volume of courses, students may be unaware of all the possible options they have, and thus miss out on taking an obscure course they would have thoroughly enjoyed.
 GA's vast distribution of courses allows for each individual student to construct their own academic path; however, besides personal preferences, when it comes to sifting through possible courses to take the following year, each student must take into account whether they meet the requirements to take a certain course. For example, most courses require a student to have taken certain prerequisites (in order to take Astrophysics, the student must have taken Algebra II), and some courses are only offered for certain grade-levels (AP Economics and AP Psychology are only offered for seniors). Given these restrictions, a student may find it tedious to have to sift through all (~200) courses to find which ones they fulfill the requirements for. This makes the course catalog a stressful maze to navigate for the student trying to construct a schedule for their following year.
 
-<img src="CourseCatalogImage.jpg" width="1000" height="600">
+<img src="CourseCatalogImage.jpg" width="900" height="600">
 
 ## Solution
 
