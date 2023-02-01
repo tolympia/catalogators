@@ -162,11 +162,6 @@ public class ConstructSchedule {
         return departmentList;
     }
 
-
-    public static void generateCoursesNextYear(){
-
-     }
-
     public List<String> generateCoursesNextYear(int risingGrade){
         //generate the courses for next year
         List<String> coursesNextYear = new List<>();
