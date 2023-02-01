@@ -9,6 +9,11 @@ public class ConstructSchedule {
 
 
     public static void main(String[] args) throws FileNotFoundException {
+        //adding scanner input for the rising grade of the user
+        Scanner sc = new Scanner();
+        System.out.println("What grade are you entering?");
+        int risingGrade = sc.nextLine();
+
         File courseCat = new File("MiniDataSet.csv");
         coursesInUniverse = parseInput(courseCat);
         for (int i = 0; i < coursesInUniverse.size(); i++){
