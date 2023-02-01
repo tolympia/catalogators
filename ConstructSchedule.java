@@ -4,7 +4,7 @@ public class ConstructSchedule {
 
     private static List<Course> coursesInUniverse;
     private List<String> selectedCourses; 
-    private List<String> pastCourses; //coursesTaken = pastCourses
+    private static List<String> pastCourses; //coursesTaken = pastCourses
     private int risingGrade;
 
 
@@ -85,7 +85,7 @@ public class ConstructSchedule {
     }
 
     // return a list of the classes that the user has already taken 
-    public static List<String> parseTranscript(File transcript){
+    public static List<String> parseTranscript(File transcript) throws FileNotFoundException{
         List <String> pastCourses = new ArrayList<>();
         Scanner transcriptScanner = new Scanner(transcript);
         while (transcriptScanner.hasNextLine()){
@@ -106,15 +106,15 @@ public class ConstructSchedule {
             //this loop gets all the available courses based on rising grade, then rest of code we filter out
         for(int i = 0; i<subjectCourses.size(); i++){
             //using courses class getter method and comparing to grade; removing classes where they are not in an elegiable grade
-            if(subjectCourses.get(i).getGrade().contains(risingGrade)){
-                availableCourses.add(i);
+            if(subjectCourses.get(i).getGradesAvailableTo().contains(risingGrade)){
+                availableCourses.add(subjectCourses.get(i));
             }
         }
 
         //this loop is for filtering availableCourses based on past courses taken & prereqs
         for(int i = 0; i<availableCourses.size(); i++){
             //prereq map for that course
-            Map<Integer, String> prereqs = availableCourses.get(i).getPrerequsites();
+            Map<Integer, ArrayList<String>> prereqs = availableCourses.get(i).getPrerequisites();
             //set of the prereq keys
             Set<Integer> keys = prereqs.keySet();
             //loop to compare to past transcript/past courses
@@ -124,7 +124,7 @@ public class ConstructSchedule {
                     availableCourses.remove(i);
                     i--;
                 }
-                for(List<String> ors : keys){
+                for(int ors : keys){
                     if(!prereqs.get(ors).contains(pastCourses.get(j))){
                         availableCourses.remove(i);
                         i--;
@@ -139,7 +139,7 @@ public class ConstructSchedule {
             }
         }
         //calling helper method to choose the random course and return it as a String
-        int index = Math.random()*availableCourses.size();
+        int index = (int) Math.random()*availableCourses.size();
         return String.valueOf(availableCourses.get(index));
 
         /*questions for the group:
@@ -155,8 +155,8 @@ public class ConstructSchedule {
     public static ArrayList <Course> getDepartmentList(String department){
         ArrayList <Course> departmentList = new ArrayList<>();
         for(int i = 0; i<coursesInUniverse.size(); i++){
-            if(coursesInUniverse.get(i).getDepartment().equals(subject)){
-                departmentList.add(i);
+            if(coursesInUniverse.get(i).getDepartment().equals(department)){
+                departmentList.add(coursesInUniverse.get(i));
             }
         }
         return departmentList;
@@ -164,9 +164,9 @@ public class ConstructSchedule {
 
     public List<String> generateCoursesNextYear(int risingGrade){
         //generate the courses for next year
-        List<String> coursesNextYear = new List<>();
+        List<String> coursesNextYear = new ArrayList<>();
         //create a list of all of the departments
-        List<String> departments = new List<>(Arrays.asList("Arts", "Science", "History", "Math", "Science", "World Languages", "English"));
+        List<String> departments = new ArrayList<>(Arrays.asList("Arts", "Science", "History", "Math", "Science", "World Languages", "English"));
         //iterate through each department
         for(String department: departments){
             coursesNextYear.add(chooseSubject(risingGrade, department));
@@ -174,10 +174,15 @@ public class ConstructSchedule {
         return coursesNextYear;
     }
 
-    public static void generateCoursesAsFile(List <String> coursesList){
+    public static void generateCoursesAsFile(List <String> coursesList) throws FileNotFoundException {
         //create a file that contains all of the courses for next year
         //input is courses list-the list that was returned containing all of the courses for next year
-        Printstream p = new PrintStream("CoursesNextYear.txt");
+
+        //string of new file name
+        String newFileName = "CoursesNextYear.txt";
+
+        //printstream to add top words to the new file (named string above)
+        PrintStream p = new PrintStream(new FileOutputStream(newFileName, true));
         p.println("these are your recommended courses for next year: ");
         // for every course in coursesList add to the printstream on a new line
         for(String course: coursesList){
