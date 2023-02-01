@@ -1,5 +1,5 @@
 # Catalogators 
-### by Patricia, Melina, Tara, and Elizabeth
+### By Patricia, Melina, Tara, and Elizabeth
 
 ## Problem
 With a diverse range of over 200 possible courses to choose from, it can often be overwhelming for GA upper school students to choose which classes to take over their four years in high school. Due to the large volume of courses, students may be unaware of all the possible options they have, and thus miss out on taking an obscure class they would have thoroughly enjoyed.
