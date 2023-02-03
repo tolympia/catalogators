@@ -9,21 +9,22 @@ public class ConstructSchedule {
 
     // Main method that actually runs our code.
     public static void main(String[] args) throws FileNotFoundException {
-        //adding scanner input for the rising grade of the user
-        /* Scanner sc = new Scanner();
+        //1. ask for user input of the grade entering
+        Scanner sc = new Scanner();
         System.out.println("What grade are you entering?");
         int risingGrade = sc.nextLine();
-        */
-        File courseCat = new File("MiniDataSet.csv");
-        coursesInUniverse = parseInput(courseCat);
-        for (int i = 0; i < coursesInUniverse.size(); i++){
-            System.out.println(coursesInUniverse.get(i).getCourseName() + " Prereqs:"  + coursesInUniverse.get(i).getGradesAvailableTo());
-        }
-        // Testing the parseTranscript method individually 
-        File testerTranscript1 = new File("SampleTranscript.txt");
-        File testerTranscript2 = new File("SampleTranscript2.txt");
-       // System.out.println("Print out tester transcript #1: " + parseTranscript(testerTranscript1));
-        //System.out.println("Print out tester transcript #2: " + parseTranscript(testerTranscript2));
+
+        //2. parse the course catalog and the transcript
+        File courseCat = new file("MiniDataSet.csv");
+        parseInput(courseCat);
+        File transcript = new file("SampleTranscript.txt");
+        parseTranscript(transcript);
+
+        //3. generate the courses for next year
+            //first as the list
+        List<String> coursesNextYear = generateCoursesNextYear(risingGrade);
+            //second as the file
+        generateCoursesAsFile(coursesNextYear);
         
     }
 
