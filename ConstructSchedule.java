@@ -29,10 +29,10 @@ public class ConstructSchedule {
         
     }
     public static void testerCatClass () throws FileNotFoundException{
-        File cc = new file("finalCourseCatalogue.csv");
-        List <Course> uni = parseInput(cc);
-        System.out.println(uni.get(0).getPrerequisites());
-        System.out.println(uni.get(1).getPrerequisites());
+        File cc = new File("finalCourseCatalogue.csv");
+        parseInput(cc);
+        System.out.println(coursesInUniverse.get(0).getPrerequisites());
+        System.out.println(coursesInUniverse.get(1).getPrerequisites());
     }
 
     //Takes in the course catalogue file and returns a list of course objects that contain all of the necessary information from the file
@@ -62,8 +62,9 @@ public class ConstructSchedule {
             for(int i = 0; i < listOfPrereqsAL.size(); i++){
                 ArrayList <String> currentRowToBeAddedToMap = new ArrayList <> ();
                 // need to deal with "department approval" --> if it is the first index, you just want the prerequisite map to be department approval
-                if (listOfPrereqsArray.indexOf("Department Approval" == 0){
-                    finalMapOfPrereqs.put(0, "Department Approval");
+                if (listOfPrereqsAL.indexOf("Department Approval") == 0){
+                    currentRowToBeAddedToMap.add("DepartmentApproval");
+                    finalMapOfPrereqs.put(0, currentRowToBeAddedToMap);
                     break;
                 }
                 // if there is an "or," extract the two different class options
