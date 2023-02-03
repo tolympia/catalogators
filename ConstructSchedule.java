@@ -9,22 +9,26 @@ public class ConstructSchedule {
 
     // Main method that actually runs our code.
     public static void main(String[] args) throws FileNotFoundException {
-        //adding scanner input for the rising grade of the user
-        /* Scanner sc = new Scanner();
+        //1. ask for user input of the grade entering
+        Scanner sc = new Scanner();
         System.out.println("What grade are you entering?");
         int risingGrade = sc.nextLine();
-        */
-        File courseCat = new File("MiniDataSet.csv");
-        coursesInUniverse = parseInput(courseCat);
-        for (int i = 0; i < coursesInUniverse.size(); i++){
-            System.out.println(coursesInUniverse.get(i).getCourseName() + " Prereqs:"  + coursesInUniverse.get(i).getGradesAvailableTo());
-        }
-        // Testing the parseTranscript method individually 
-        File testerTranscript1 = new File("SampleTranscript.txt");
-        File testerTranscript2 = new File("SampleTranscript2.txt");
-       // System.out.println("Print out tester transcript #1: " + parseTranscript(testerTranscript1));
-        //System.out.println("Print out tester transcript #2: " + parseTranscript(testerTranscript2));
+
+        //2. parse the course catalog and the transcript
+        File courseCat = new file("MiniDataSet.csv");
+        parseInput(courseCat);
+        File transcript = new file("SampleTranscript.txt");
+        parseTranscript(transcript);
+
+        //3. generate the courses for next year
+            //first as the list
+        List<String> coursesNextYear = generateCoursesNextYear(risingGrade);
+            //second as the file
+        generateCoursesAsFile(coursesNextYear);
         
+    }
+    public static void testerCatClass () throws FileNotFoundException{
+
     }
 
     //Takes in the course catalogue file and returns a list of course objects that contain all of the necessary information from the file
@@ -39,21 +43,22 @@ public class ConstructSchedule {
             String [] currentLineArray = catalogueScanner.nextLine().split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
             //change currentLine into an arrayList (rather than an arrray, so deletions can be made)
             ArrayList <String> currentLineAL  = new ArrayList <> (Arrays.asList(currentLineArray));
-            // set the department to the first index of currentLineAL
+            // set the department to the string at the department index 
             String department = currentLineAL.get(0);
             // remove the department attribute
             // set the course name to the first index of currentLineAL 
-            String currentCourseName = currentLineAL.get(1);
+            String currentCourseName = currentLineAL.get(3);
             //create holder map that will hold the final list of prereqs
             Map <Integer, ArrayList <String>> finalMapOfPrereqs = new HashMap <> ();
             // save the list of prereqs to an array list
-            String [] listOfPrereqsArray = currentLineAL.get(2).split(",");
+            String [] listOfPrereqsArray = currentLineAL.get(6).split(" and ");
             // making it into an arraylist so that .contains can be used
             ArrayList <String> listOfPrereqsAL =  new ArrayList <String> (Arrays.asList(listOfPrereqsArray));
             System.out.println("LIST OF PREREQS:" + listOfPrereqsAL);
             // iterate through each element in this arrayList
             for(int i = 0; i < listOfPrereqsAL.size(); i++){
                 ArrayList <String> currentRowToBeAddedToMap = new ArrayList <> ();
+                // need to deal with "department approval" --> if it is the first index, you just want the prerequisite map to be department approval
                 // if there is an "or," extract the two different class options
                 if(listOfPrereqsAL.get(i).contains(" or ")){
                     // save the index of the "or"
