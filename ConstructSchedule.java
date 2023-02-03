@@ -73,13 +73,43 @@ public class ConstructSchedule {
                     // add the row to the map (i will serve as a dummy key)
                     finalMapOfPrereqs.put(i, currentRowToBeAddedToMap);
             }
-                // set the prereq list to the prereq map
-                // remove the prereq column from current line so there is a new element at 0
-                String [] gradesAvailableToArray = currentLineAL.get(3).split(",");
+
+                // makes news string equal to the grades available to
+                String tempGradesAvailableTo = currentLineAL.get(5);
+                // sets the String array equal to the grades each course is available to
+                if (tempGradesAvailableTo.contains("9th - 12th")) {
+                   String [] gradesAvailableToArray = {"9", "10", "11", "12"};
+                }
+                else if (tempGradesAvailableTo.contains("9th - 11th")) {
+                    String [] gradesAvailableToArray = {"9", "10", "11"};
+                }
+                else if (tempGradesAvailableTo.contains("9th-10th")) {
+                    String [] gradesAvailableToArray = {"9", "10"};
+                }
+                else if (tempGradesAvailableTo.contains("9th")) {
+                    String [] gradesAvailableToArray = {"9"};
+                }
+                else if (tempGradesAvailableTo.contains("10th - 12th")) {
+                    String [] gradesAvailableToArray = {"10", "11", "12"};
+                }
+                else if (tempGradesAvailableTo.contains("10th - 11th")) {
+                    String [] gradesAvailableToArray = {"10", "11"};
+                }
+                else if (tempGradesAvailableTo.contains("10th")) {
+                    String [] gradesAvailableToArray = {"10"};
+                }
+                else if (tempGradesAvailableTo.contains("11th - 12th")) {
+                    String [] gradesAvailableToArray = {"11", "12"};
+                }
+                else if (tempGradesAvailableTo.contains("11th")) {
+                    String [] gradesAvailableToArray = {"11"};
+                }
+                else if (tempGradesAvailableTo.contains("12th")) {
+                    String [] gradesAvailableToArray = {"12"};
+                }
+                // makes an AL of the grades available array
                 ArrayList <String> gradesAvailableToAL = new ArrayList <String> (Arrays.asList(gradesAvailableToArray));
-                Course currentCourseObj = new Course(currentCourseName, gradesAvailableToAL, department, finalMapOfPrereqs);
-                // add this course object to listOfCourseObjs
-                listOfCourseObjs.add(currentCourseObj);
+
             }
         /*
             f. save currentLine.get(0) to a new String [] split by commas, call it listOfPrereqs
