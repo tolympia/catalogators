@@ -3,33 +3,33 @@ import java.io.*;
 public class ConstructSchedule {
 
     private static List<Course> coursesInUniverse;
-    private List<String> selectedCourses; 
+    private static List<String> selectedCourses; 
     private static List<String> pastCourses; //coursesTaken = pastCourses
-    private int risingGrade;
+    private static int risingGrade;
 
     // Main method that actually runs our code.
     public static void main(String[] args) throws FileNotFoundException {
         //1. ask for user input of the grade entering
-        Scanner sc = new Scanner();
+        Scanner sc = new Scanner(System.in);
         System.out.println("What grade are you entering?");
-        int risingGrade = sc.nextLine();
+        int risingGrade = Integer.parseInt(sc.next());
 
         //2. parse the course catalog and the transcript
-        File courseCat = new file("MiniDataSet.csv");
+        File courseCat = new File("MiniDataSet.csv");
         parseInput(courseCat);
-        File transcript = new file("SampleTranscript.txt");
+        //System.out.println(coursesInUniverse);
+
+        File transcript = new File("SampleTranscript.txt");
         parseTranscript(transcript);
 
         //3. generate the courses for next year
-            //first as the list
         List<String> coursesNextYear = generateCoursesNextYear(risingGrade);
-            //second as the file
         generateCoursesAsFile(coursesNextYear);
         
     }
 
     //Takes in the course catalogue file and returns a list of course objects that contain all of the necessary information from the file
-    public static List <Course> parseInput(File courseCatalogue) throws FileNotFoundException{
+    public static void parseInput(File courseCatalogue) throws FileNotFoundException{
        // 1. create a scanner to read in the course catalogue
         Scanner catalogueScanner = new Scanner (courseCatalogue);
         //2. create holder list of course objects listOfCourseObjs */ 
@@ -51,7 +51,6 @@ public class ConstructSchedule {
             String [] listOfPrereqsArray = currentLineAL.get(2).split(",");
             // making it into an arraylist so that .contains can be used
             ArrayList <String> listOfPrereqsAL =  new ArrayList <String> (Arrays.asList(listOfPrereqsArray));
-            System.out.println("LIST OF PREREQS:" + listOfPrereqsAL);
             // iterate through each element in this arrayList
             for(int i = 0; i < listOfPrereqsAL.size(); i++){
                 ArrayList <String> currentRowToBeAddedToMap = new ArrayList <> ();
@@ -92,9 +91,9 @@ public class ConstructSchedule {
             l. (might have to parse this line first as an array, kind of unclear) using set method of course object, add all the remaining elements of current line to the "gradeAvailable" attribute of the course object
             m. add the course object to the listOfCourseObjs
         3. close scanners
-        4. return the listOfCourseObjs
-            */
-        return listOfCourseObjs;
+        }
+        */
+        coursesInUniverse = listOfCourseObjs;
     }
 
     // return a list of the classes that the user has already taken 
@@ -143,7 +142,6 @@ public class ConstructSchedule {
                         i--;
                     }
                 }
-
                 //checking if prereqs contain any of the past courses they have taken/vis versa
                 // iterate through all of their past courses
                 // iterate through all of the keys of the prerequisite map 
@@ -175,7 +173,7 @@ public class ConstructSchedule {
         return departmentList;
     }
 
-    public List<String> generateCoursesNextYear(int risingGrade){
+    public static List<String> generateCoursesNextYear(int risingGrade){
         //generate the courses for next year
         List<String> coursesNextYear = new ArrayList<>();
         //create a list of all of the departments
