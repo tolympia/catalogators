@@ -9,23 +9,29 @@ public class ConstructSchedule {
 
     // Main method that actually runs our code.
     public static void main(String[] args) throws FileNotFoundException {
-        //1. ask for user input of the grade entering
-        Scanner sc = new Scanner(System.in);
-        System.out.println("What grade are you entering?");
-        int risingGrade = Integer.parseInt(sc.next());
+        // if (args.length > 0 && args[0].equals("testParse")){
+        //     testerCatClass();
+        // }
+        testerCatClass();
+        // else{
+        //     //1. ask for user input of the grade entering
+        //     Scanner sc = new Scanner(System.in);
+        // System.out.println("What grade are you entering?");
+        // int risingGrade = Integer.parseInt(sc.next());
 
 
-        //2. parse the course catalog and the transcript
-        File courseCat = new File("MiniDataSet.csv");
-        parseInput(courseCat);
-        //System.out.println(coursesInUniverse);
+        // //2. parse the course catalog and the transcript
+        // File courseCat = new File("MiniDataSet.csv");
+        // parseInput(courseCat);
+        // //System.out.println(coursesInUniverse);
 
-        File transcript = new File("SampleTranscript.txt");
-        parseTranscript(transcript);
+        // File transcript = new File("SampleTranscript.txt");
+        // parseTranscript(transcript);
 
-        //3. generate the courses for next year
-        List<String> coursesNextYear = generateCoursesNextYear(risingGrade);
-        generateCoursesAsFile(coursesNextYear);
+        // //3. generate the courses for next year
+        // List<String> coursesNextYear = generateCoursesNextYear(risingGrade);
+        // generateCoursesAsFile(coursesNextYear);
+        // }
         
     }
     public static void testerCatClass () throws FileNotFoundException{
@@ -89,40 +95,42 @@ public class ConstructSchedule {
 
                 // makes news string equal to the grades available to
                 String tempGradesAvailableTo = currentLineAL.get(5);
+                System.out.println(" TEMP GRADES: " + tempGradesAvailableTo);
+                ArrayList <String> gradesAvailableToAL = new ArrayList <> ();
                 // sets the String array equal to the grades each course is available to
                 if (tempGradesAvailableTo.contains("9th - 12th")) {
-                   String [] gradesAvailableToArray = {"9", "10", "11", "12"};
+                   gradesAvailableToAL = new ArrayList <> (Arrays.asList("9", "10", "11", "12"));
                 }
                 else if (tempGradesAvailableTo.contains("9th - 11th")) {
-                    String [] gradesAvailableToArray = {"9", "10", "11"};
+                    gradesAvailableToAL =  new ArrayList <> (Arrays.asList("9", "10", "11"));
                 }
                 else if (tempGradesAvailableTo.contains("9th-10th")) {
-                    String [] gradesAvailableToArray = {"9", "10"};
+                    gradesAvailableToAL =  new ArrayList <>(Arrays.asList("9", "10"));
                 }
                 else if (tempGradesAvailableTo.contains("9th")) {
-                    String [] gradesAvailableToArray = {"9"};
+                    gradesAvailableToAL =  new ArrayList <>(Arrays.asList("9"));
                 }
                 else if (tempGradesAvailableTo.contains("10th - 12th")) {
-                    String [] gradesAvailableToArray = {"10", "11", "12"};
+                    gradesAvailableToAL =  new ArrayList <> (Arrays.asList("10", "11", "12"));
                 }
                 else if (tempGradesAvailableTo.contains("10th - 11th")) {
-                    String [] gradesAvailableToArray = {"10", "11"};
+                    gradesAvailableToAL =  new ArrayList <> (Arrays.asList("10", "11"));
                 }
                 else if (tempGradesAvailableTo.contains("10th")) {
-                    String [] gradesAvailableToArray = {"10"};
+                    gradesAvailableToAL =  new ArrayList <> (Arrays.asList("10"));
                 }
                 else if (tempGradesAvailableTo.contains("11th - 12th")) {
-                    String [] gradesAvailableToArray = {"11", "12"};
+                    gradesAvailableToAL =  new ArrayList <> (Arrays.asList("11", "12"));
                 }
                 else if (tempGradesAvailableTo.contains("11th")) {
-                    String [] gradesAvailableToArray = {"11"};
+                    gradesAvailableToAL =  new ArrayList <> (Arrays.asList("11"));
                 }
                 else if (tempGradesAvailableTo.contains("12th")) {
-                    String [] gradesAvailableToArray = {"12"};
+                   gradesAvailableToAL =  new ArrayList <> (Arrays.asList("12"));
                 }
                 // makes an AL of the grades available array
-                ArrayList <String> gradesAvailableToAL = new ArrayList <String> (Arrays.asList(gradesAvailableToArray));
-
+                Course courseToAdd = new Course(currentCourseName, gradesAvailableToAL, department, finalMapOfPrereqs);
+                listOfCourseObjs.add(courseToAdd);
             }
         /*
             f. save currentLine.get(0) to a new String [] split by commas, call it listOfPrereqs
