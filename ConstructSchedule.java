@@ -10,8 +10,8 @@ public class ConstructSchedule {
     // Main method that actually runs our code.
     public static void main(String[] args) throws FileNotFoundException {
         //1. ask for user input of the grade entering
-        Scanner sc = new Scanner();
-        System.out.println("What grade are you entering?");
+        //Scanner sc = new Scanner();
+        //System.out.println("What grade are you entering?");
         int risingGrade = sc.nextLine();
 
         //2. parse the course catalog and the transcript
@@ -28,7 +28,10 @@ public class ConstructSchedule {
         
     }
     public static void testerCatClass () throws FileNotFoundException{
-
+        File cc = new file("finalCourseCatalogue.csv");
+        List <Course> uni = parseInput(cc);
+        System.out.println(uni.get(0).getPrerequisites());
+        System.out.println(uni.get(1).getPrerequisites());
     }
 
     //Takes in the course catalogue file and returns a list of course objects that contain all of the necessary information from the file
@@ -54,11 +57,14 @@ public class ConstructSchedule {
             String [] listOfPrereqsArray = currentLineAL.get(6).split(" and ");
             // making it into an arraylist so that .contains can be used
             ArrayList <String> listOfPrereqsAL =  new ArrayList <String> (Arrays.asList(listOfPrereqsArray));
-            System.out.println("LIST OF PREREQS:" + listOfPrereqsAL);
             // iterate through each element in this arrayList
             for(int i = 0; i < listOfPrereqsAL.size(); i++){
                 ArrayList <String> currentRowToBeAddedToMap = new ArrayList <> ();
                 // need to deal with "department approval" --> if it is the first index, you just want the prerequisite map to be department approval
+                if (listOfPrereqsArray.indexOf("Department Approval" == 0){
+                    finalMapOfPrereqs.put(0, "Department Approval");
+                    break;
+                }
                 // if there is an "or," extract the two different class options
                 if(listOfPrereqsAL.get(i).contains(" or ")){
                     // save the index of the "or"
