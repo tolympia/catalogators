@@ -12,13 +12,15 @@ public class ConstructSchedule {
         // if (args.length > 0 && args[0].equals("testParse")){
         //     testerCatClass();
         // }
-        testerCatClass();
-        System.out.println(coursesInUniverse.size());
-        // PRINT ALL COURSES IN UNI
+        // testerCatClass();
+        // System.out.println(coursesInUniverse.size());
+        // // PRINT ALL COURSES IN UNI
+        // System.out.println(coursesInUniverse.size());
+        File f = new File ("MiniDataSet.csv");
+        parseInputVersion1(f);
         for (int i = 0; i < coursesInUniverse.size(); i++ ){
-            System.out.println(coursesInUniverse.get(i).getCourseName());
-        }
-        System.out.println(coursesInUniverse.size());
+             System.out.println(coursesInUniverse.get(i).getGradesAvailableTo());
+         }
         // else{
         //     //1. ask for user input of the grade entering
         //     Scanner sc = new Scanner(System.in);
@@ -149,20 +151,66 @@ public class ConstructSchedule {
                 Course courseToAdd = new Course(currentCourseName, gradesAvailableToAL, department, finalMapOfPrereqs);
                 listOfCourseObjs.add(courseToAdd);;
             }
-        /*
-            f. save currentLine.get(0) to a new String [] split by commas, call it listOfPrereqs
-                g. use a for loop (for the length of listOfPrereqs) iterate through each element
-                h. if listOfPrereqs[i].contains("or") != 0, create a substring of the first class and a substring of the second class, add both to finalListOfPrereqs
-                i. if listOfPrereqs[i] does not contain "or", add listofprereqs[i] to finalListOfPrereqs
-            j. use the setPrereqList method of the currentCourseObj to set its list to finalListOfPrereqs
-            k. delete element at 0 from currentLine
-            l. (might have to parse this line first as an array, kind of unclear) using set method of course object, add all the remaining elements of current line to the "gradeAvailable" attribute of the course object
-            m. add the course object to the listOfCourseObjs
-        3. close scanners
-        }
-        */
         catalogueScanner.close();
         coursesInUniverse = listOfCourseObjs;
+    }
+    // Version one of the parseInput Method that takes in the baby dataset
+    public static void parseInputVersion1(File babyCourseCatalogue) throws FileNotFoundException{
+       // 1. create a scanner to read in the course catalogue
+        Scanner catalogueScanner = new Scanner (babyCourseCatalogue);
+        //2. create holder list of course objects listOfCourseObjs */ 
+        ArrayList <Course> listOfCourseObjs = new ArrayList <> ();
+        //want to skip over the first row of the datset becasue that row is just the headers
+        catalogueScanner.nextLine();
+        //2. use a while loop to iterate through the file line by line (until it has next line), use 1 row at a time
+        while(catalogueScanner.hasNextLine()){
+            //get one row from the dataset
+            String [] currentLineArray = catalogueScanner.nextLine().split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
+            //change currentLine into an arrayList (rather than an arrray, so deletions can be made)
+            ArrayList <String> currentLineAL  = new ArrayList <> (Arrays.asList(currentLineArray));
+            // set the department to the first index of currentLineAL
+            String department = currentLineAL.get(0);
+            // remove the department attribute
+            // set the course name to the first index of currentLineAL 
+            String currentCourseName = currentLineAL.get(1);
+            //create holder map that will hold the final list of prereqs
+            Map <Integer, ArrayList <String>> finalMapOfPrereqs = new HashMap <> ();
+            // save the list of prereqs to an array list
+            String [] listOfPrereqsArray = currentLineAL.get(2).split(",");
+            // making it into an arraylist so that .contains can be used
+            ArrayList <String> listOfPrereqsAL =  new ArrayList <String> (Arrays.asList(listOfPrereqsArray));
+            // iterate through each element in this arrayList
+            for(int i = 0; i < listOfPrereqsAL.size(); i++){
+                ArrayList <String> currentRowToBeAddedToMap = new ArrayList <> ();
+                // if there is an "or," extract the two different class options
+                if(listOfPrereqsAL.get(i).contains(" or ")){
+                    // save the index of the "or"
+                    int indexOfOr = listOfPrereqsAL.get(i).indexOf(" or ");
+                    // save the index so it does not include the space between the course name and the "or"
+                    String firstClassInOr = listOfPrereqsAL.get(i).substring(0, indexOfOr);
+                    // add it to the currentRow variable
+                    currentRowToBeAddedToMap.add(firstClassInOr);
+                    // the "+ 4" is so that this second substring does not contain "or" or the space after it
+                     String secondClassInOr = listOfPrereqsAL.get(i).substring(indexOfOr + 4);
+                    currentRowToBeAddedToMap.add(secondClassInOr);
+                }
+                else{
+                        // if there is no "or," just add the current class string to the currentRow variable
+                        currentRowToBeAddedToMap.add(listOfPrereqsAL.get(i));
+                }
+                    // add the row to the map (i will serve as a dummy key)
+                    finalMapOfPrereqs.put(i, currentRowToBeAddedToMap);
+            }
+                // set the prereq list to the prereq map
+                // remove the prereq column from current line so there is a new element at 0
+                String [] gradesAvailableToArray = currentLineAL.get(3).split(",");
+                ArrayList <String> gradesAvailableToAL = new ArrayList <String> (Arrays.asList(gradesAvailableToArray));
+                Course currentCourseObj = new Course(currentCourseName, gradesAvailableToAL, department, finalMapOfPrereqs);
+                // add this course object to listOfCourseObjs
+                listOfCourseObjs.add(currentCourseObj);
+            }
+            catalogueScanner.close();
+            coursesInUniverse = listOfCourseObjs;
     }
 
     // // return a list of the classes that the user has already taken 
