@@ -118,7 +118,6 @@ public class ConstructSchedule {
         return pastCourses;
     }
 
-    //science
     public static String chooseSubject(int risingGrade, String department){
         //creating list that contains the courses of the subject currently being chosen
         System.out.println("test1");
