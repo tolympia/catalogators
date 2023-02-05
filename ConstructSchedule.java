@@ -16,11 +16,8 @@ public class ConstructSchedule {
         // System.out.println(coursesInUniverse.size());
         // // PRINT ALL COURSES IN UNI
         // System.out.println(coursesInUniverse.size());
-        File f = new File ("MiniDataSet.csv");
-        parseInputVersion1(f);
-        for (int i = 0; i < coursesInUniverse.size(); i++ ){
-             System.out.println(coursesInUniverse.get(i).getGradesAvailableTo());
-         }
+        File f = new File ("finalCourseCatalogue.csv");
+        parseInput(f);
         // else{
         //     //1. ask for user input of the grade entering
         //     Scanner sc = new Scanner(System.in);
@@ -49,7 +46,7 @@ public class ConstructSchedule {
         System.out.println(coursesInUniverse.get(1).getPrerequisites());
     }
 
-    //Takes in the course catalogue file and returns a list of course objects that contain all of the necessary information from the file
+    //Takes in the big course catalogue file and returns a list of course objects that contain all of the necessary information from the file
     public static void parseInput(File courseCatalogue) throws FileNotFoundException{
        // 1. create a scanner to read in the course catalogue
         Scanner catalogueScanner = new Scanner (courseCatalogue);
@@ -71,7 +68,6 @@ public class ConstructSchedule {
             ArrayList <String> currentLineAL = new ArrayList <> ();
             for(int i = 0; i <= 6; i++){
                 currentLineAL.add(currentLineAL1.get(i));
-                System.out.println("JUST ADDED " + currentLineAL1.get(i));
             }
             // set the department to the string at the department index 
             String department = currentLineAL.get(0);
