@@ -3,9 +3,27 @@ import java.io.*;
 public class ConstructSchedule {
 
     private static List<Course> coursesInUniverse;
-    private static List<String> selectedCourses; 
-    private static List<String> pastCourses; //coursesTaken = pastCourses
-    private static int risingGrade;
+    private List<String> selectedCourses; 
+    private static List<String> pastCourses;
+    private int risingGrade;
+
+    // Main method that actually runs our code.
+    public static void main(String[] args) throws FileNotFoundException {
+        //adding scanner input for the rising grade of the user
+        /* Scanner sc = new Scanner();
+        System.out.println("What grade are you entering?");
+        int risingGrade = sc.nextLine();
+        */
+        // File courseCat = new File("MiniDataSet.csv");
+        // coursesInUniverse = parseInput(courseCat);
+        // for (int i = 0; i < coursesInUniverse.size(); i++){
+        //     System.out.println(coursesInUniverse.get(i).getCourseName() + " Prereqs:"  + coursesInUniverse.get(i).getGradesAvailableTo());
+        // }
+        // // Testing the parseTranscript method individually 
+        // File testerTranscript1 = new File("SampleTranscript.txt");
+        // File testerTranscript2 = new File("SampleTranscript2.txt");
+       // System.out.println("Print out tester transcript #1: " + parseTranscript(testerTranscript1));
+        //System.out.println("Print out tester transcript #2: " + parseTranscript(testerTranscript2));
 
     // Main method that actually runs our code.
     public static void main(String[] args) throws FileNotFoundException {
@@ -38,6 +56,17 @@ public class ConstructSchedule {
         // generateCoursesAsFile(coursesNextYear);
         // }
         
+        File courseCat = new File("MiniDataSet.csv");
+        parseInput(courseCat);
+
+        File transcript = new File("SampleTranscript.txt");
+        pastCourses = parseTranscript(transcript);
+
+        //System.out.println(coursesInUniverse);
+
+        String test = chooseSubject(11, "Math");
+        System.out.println(test);
+
     }
     public static void testerCatClass () throws FileNotFoundException{
         File cc = new File("courseCatalogueWithoutRow12.csv");
@@ -205,8 +234,24 @@ public class ConstructSchedule {
                 // add this course object to listOfCourseObjs
                 listOfCourseObjs.add(currentCourseObj);
             }
+<<<<<<< HEAD
+        /*
+            f. save currentLine.get(0) to a new String [] split by commas, call it listOfPrereqs
+                g. use a for loop (for the length of listOfPrereqs) iterate through each element
+                h. if listOfPrereqs[i].contains("or") != 0, create a substring of the first class and a substring of the second class, add both to finalListOfPrereqs
+                i. if listOfPrereqs[i] does not contain "or", add listofprereqs[i] to finalListOfPrereqs
+            j. use the setPrereqList method of the currentCourseObj to set its list to finalListOfPrereqs
+            k. delete element at 0 from currentLine
+            l. (might have to parse this line first as an array, kind of unclear) using set method of course object, add all the remaining elements of current line to the "gradeAvailable" attribute of the course object
+            m. add the course object to the listOfCourseObjs
+        3. close scanners
+        4. return the listOfCourseObjs
+            */
+        coursesInUniverse = listOfCourseObjs;
+=======
             catalogueScanner.close();
             coursesInUniverse = listOfCourseObjs;
+>>>>>>> 95ea797bb758bec43418a46aef66b3df1028d327
     }
 
     // // return a list of the classes that the user has already taken 
@@ -221,6 +266,76 @@ public class ConstructSchedule {
     //     return pastCourses;
     // }
 
+    public static String chooseSubject(int risingGrade, String department){
+        //creating list that contains the courses of the subject currently being chosen
+        System.out.println("test1");
+        List<Course> subjectCourses = getDepartmentList(department);
+        //System.out.println(subjectCourses);
+        //creating list of courses available to particular student to be randomly indexed through to pick class at the end of the method
+        List<Course> availableCourses = new ArrayList<>();
+        //going through subjectCourses and seeing what is available to student based on their rising grade (see below)
+            //this loop gets all the available courses based on rising grade, then rest of code we filter out
+        for(int i = 0; i<subjectCourses.size(); i++){
+            //System.out.println(subjectCourses.size());
+            //System.out.println(subjectCourses.get(i));
+            //using courses class getter method and comparing to grade; removing classes where they are not in an elegiable grade
+            if(subjectCourses.get(i).getGradesAvailableTo().contains(String.valueOf(risingGrade))){
+                availableCourses.add(subjectCourses.get(i));
+            }
+        }
+        System.out.println("after getting availableCourses");
+        System.out.println(availableCourses.size());
+        //this loop is for filtering availableCourses based on past courses taken & prereqs
+        for(int i = 0; i<availableCourses.size(); i++){
+            //prereq map for that course
+            Map<Integer, ArrayList<String>> prereqs = availableCourses.get(i).getPrerequisites();
+            //set of the prereq keys
+            Set<Integer> keys = prereqs.keySet();
+            //loop to compare to past transcript/past courses
+            System.out.println("in available courses loop");
+            System.out.println(pastCourses.size());
+            for(int j = 0; j<pastCourses.size(); j++){
+                System.out.println("in past courses loop");
+                //removing classes already taken from the available list
+                if(availableCourses.get(i).equals(pastCourses.get(j))){
+                    availableCourses.remove(i);
+                    i--;
+                }
+                System.out.println("in past courses loop before for each loop");
+
+                //count is incremented by one when a pastCourse IS a prereq
+                int count = 0;
+                for(int ors : keys){
+                    if(prereqs.get(ors).contains(pastCourses.get(j))){
+                        count++;
+                    }
+                }
+                System.out.println("after count");
+                //if there is not at least ONE prereq match, taken out of available list
+                if(count < 1){
+                    availableCourses.remove(i);
+                    i--;
+                }
+
+                //checking if prereqs contain any of the past courses they have taken/vis versa
+                // iterate through all of their past courses
+                // iterate through all of the keys of the prerequisite map 
+                // make sure that each key contains at least ONE prerequisite
+                // if each key contains at least one, the course object is not removed 
+            }
+        }
+        //calling helper method to choose the random course and return it as a String
+        int index = (int) Math.random()*availableCourses.size();
+        return String.valueOf(availableCourses.get(index));
+
+        /*questions for the group:
+        - are we hard coding these based on the GA schedule or leaving it more general
+            - ex. technically if I do it by rising grade I could hard code only to pick biology or we could just code a program to do that but it work more generally
+        - is altering scienceCourses going to alter it if the program is run for another student (I dont think so but I want to be sure)
+        - still a little confused about how we are comparing to the prereq map so we'll go over that at the next meet up
+        */
+
+    }
     // //science
     // public static String chooseSubject(int risingGrade, String department){
     //     //creating list that contains the courses of the subject currently being chosen
@@ -316,3 +431,14 @@ public class ConstructSchedule {
     // }
 
 }
+
+/* Departments available:
+- Arts
+- Math
+- English
+- World Language
+- Classics
+- Computer Science + Engineering
+- History
+- Science
+*/
