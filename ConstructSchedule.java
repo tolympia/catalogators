@@ -13,6 +13,7 @@ public class ConstructSchedule {
         Scanner sc = new Scanner(System.in);
         System.out.println("What grade are you entering?");
         risingGrade = sc.nextInt();
+        sc.close();
         // parse the mini dataset and the sample transcript files
         File f = new File("MiniDataSet.csv");
         File sampleTranscript = new File("SampleTranscript.txt");
@@ -371,7 +372,7 @@ public class ConstructSchedule {
         String newFileName = "CoursesNextYear.txt";
 
         //printstream to add top words to the new file (named string above)
-        PrintStream p = new PrintStream(new FileOutputStream(newFileName, true));
+        PrintStream p = new PrintStream(new FileOutputStream(newFileName, false));
         p.println("these are your recommended courses for next year: ");
         // for every course in coursesList add to the printstream on a new line
         for(String course: coursesList){
