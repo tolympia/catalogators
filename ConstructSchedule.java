@@ -3,86 +3,27 @@ import java.io.*;
 public class ConstructSchedule {
 
     private static List<Course> coursesInUniverse;
-    private List<String> selectedCourses; 
-    private static List<Str-ing> pastCourses;
-    private int risingGrade;
+    private static List<String> selectedCourses = new ArrayList <> ();
+    private static List<String> pastCourses;
+    private static int risingGrade;
 
     // Main method that actually runs our code.
-  //  public static void main(String[] args) throws FileNotFoundException {
-        //adding scanner input for the rising grade of the user
-        /* Scanner sc = new Scanner();
+    public static void main(String[] args) throws FileNotFoundException {
+        // ask the user for the grade they are entering
+        Scanner sc = new Scanner(System.in);
         System.out.println("What grade are you entering?");
-        int risingGrade = sc.nextLine();
-        */
-        // File courseCat = new File("MiniDataSet.csv");
-        // coursesInUniverse = parseInput(courseCat);
-        // for (int i = 0; i < coursesInUniverse.size(); i++){
-        //     System.out.println(coursesInUniverse.get(i).getCourseName() + " Prereqs:"  + coursesInUniverse.get(i).getGradesAvailableTo());
-        // }
-        // // Testing the parseTranscript method individually 
-        // File testerTranscript1 = new File("SampleTranscript.txt");
-        // File testerTranscript2 = new File("SampleTranscript2.txt");
-       // System.out.println("Print out tester transcript #1: " + parseTranscript(testerTranscript1));
-        //System.out.println("Print out tester transcript #2: " + parseTranscript(testerTranscript2));
-
-    // Main method that actually runs our code.
-        // if (args.length > 0 && args[0].equals("testParse")){
-        //     testerCatClass();
-        // }
-        // testerCatClass();
-        // System.out.println(coursesInUniverse.size());
-        // // PRINT ALL COURSES IN UNI
-        // System.out.println(coursesInUniverse.size());
-
-        // else{
-        //     //1. ask for user input of the grade entering
-        //     Scanner sc = new Scanner(System.in);
-        // System.out.println("What grade are you entering?");
-        // int risingGrade = Integer.parseInt(sc.next());
-
-
-        // //2. parse the course catalog and the transcript
-        // File courseCat = new File("MiniDataSet.csv");
-        // parseInput(courseCat);
-        // //System.out.println(coursesInUniverse);
-
-        // File transcript = new File("SampleTranscript.txt");
-        // parseTranscript(transcript);
-
-        // //3. generate the courses for next year
-        // List<String> coursesNextYear = generateCoursesNextYear(risingGrade);
-        // generateCoursesAsFile(coursesNextYear);
-        // }
-        
-        File courseCat = new File("MiniDataSet.csv");
-        parseInputVersion1(courseCat);
-
-        File transcript = new File("SampleTranscript.txt");
-        parseTranscript(transcript);
-
-        //System.out.println(coursesInUniverse);
-
-        String test = chooseSubject(11, "Math");
-        System.out.println(test);
-
-    }
-
-    public static void testerCatClass () throws FileNotFoundException{
-        File cc = new File("courseCatalogueWithoutRow12.csv");
-        parseInput(cc);
-        System.out.println(coursesInUniverse.get(0).getPrerequisites());
-        System.out.println(coursesInUniverse.get(1).getPrerequisites());
-    }
-    // return a list of the classes that the user has already taken 
-    public static List<String> parseTranscript(File transcript) throws FileNotFoundException{
-        List <String> pastCourses = new ArrayList<>();
-        Scanner transcriptScanner = new Scanner(transcript);
-        while (transcriptScanner.hasNextLine()){
-            String currentLine = transcriptScanner.nextLine();
-            pastCourses.add(currentLine);
-        }
-        transcriptScanner.close();
-        return pastCourses;
+        risingGrade = sc.nextInt();
+        // parse the mini dataset and the sample transcript files
+        File f = new File("MiniDataSet.csv");
+        File sampleTranscript = new File("SampleTranscript.txt");
+        parseTranscript(sampleTranscript);
+        parseInputVersion1(f);
+        // it is as if there is a prerequisite called "none" since if a course objects' prerequisite is "none", it can be taken by anyone
+        pastCourses.add("none");
+        // create list of the courses for next year
+        generateCoursesNextYear(risingGrade);
+        // write courses for next year to a file
+        generateCoursesAsFile(selectedCourses);
     }
     //Takes in the big course catalogue file and returns a list of course objects that contain all of the necessary information from the file
     public static void parseInput(File courseCatalogue) throws FileNotFoundException{
@@ -237,30 +178,44 @@ public class ConstructSchedule {
                     finalMapOfPrereqs.put(i, currentRowToBeAddedToMap);
             }
                 // set the prereq list to the prereq map
-                // remove the prereq column from current line so there is a new element at 0
+                // cleaning up the final map of prereqs a bit by removing the ""
                 String [] gradesAvailableToArray = currentLineAL.get(3).split(",");
                 ArrayList <String> gradesAvailableToAL = new ArrayList <String> (Arrays.asList(gradesAvailableToArray));
                 Course currentCourseObj = new Course(currentCourseName, gradesAvailableToAL, department, finalMapOfPrereqs);
                 // add this course object to listOfCourseObjs
                 listOfCourseObjs.add(currentCourseObj);
             }
-        /*
-            f. save currentLine.get(0) to a new String [] split by commas, call it listOfPrereqs
-                g. use a for loop (for the length of listOfPrereqs) iterate through each element
-                h. if listOfPrereqs[i].contains("or") != 0, create a substring of the first class and a substring of the second class, add both to finalListOfPrereqs
-                i. if listOfPrereqs[i] does not contain "or", add listofprereqs[i] to finalListOfPrereqs
-            j. use the setPrereqList method of the currentCourseObj to set its list to finalListOfPrereqs
-            k. delete element at 0 from currentLine
-            l. (might have to parse this line first as an array, kind of unclear) using set method of course object, add all the remaining elements of current line to the "gradeAvailable" attribute of the course object
-            m. add the course object to the listOfCourseObjs
-        3. close scanners
-        4. return the listOfCourseObjs
-            */
-        coursesInUniverse = listOfCourseObjs;
+            coursesInUniverse = listOfCourseObjs;
             catalogueScanner.close();
             coursesInUniverse = listOfCourseObjs;
     }
-
+    // helper method to clean up the prereq map further
+    public static Map <Integer, ArrayList <String>> cleanUpMap (Map <Integer, ArrayList <String>> prereqMap){
+        // first, remove all unnecessary quotation marks
+        Set <Integer> keys = prereqMap.keySet();
+        for(Integer key : keys){
+            ArrayList <String> currentRowInMap = prereqMap.get(key);
+            for(int i = 0; i < currentRowInMap.size(); i++){
+                // if the first character is a quotation mark or a space, remove it
+                String cleanedElement = "";
+                if(currentRowInMap.get(i).charAt(0) == ' ' || currentRowInMap.get(i).charAt(0) == '\"'){
+                    cleanedElement = currentRowInMap.get(i).substring(1);
+                    currentRowInMap.remove(i);
+                    // add the cleaned element back
+                    currentRowInMap.add(cleanedElement);
+                }
+                //if the last character is a quotation mark, delete it
+                int lastIndexOfLastElement = currentRowInMap.get(i).length() - 1;
+                if(currentRowInMap.get(i).charAt(lastIndexOfLastElement) == '\"'){
+                    cleanedElement = currentRowInMap.get(i).substring(0, lastIndexOfLastElement);
+                    currentRowInMap.remove(i);
+                    // add the cleaned element back
+                    currentRowInMap.add(cleanedElement);
+                }
+            }
+        }
+        return prereqMap;
+    }
     // return a list of the classes that the user has already taken 
     public static void parseTranscript(File transcript) throws FileNotFoundException{
         List <String> takenCourses = new ArrayList<>();
@@ -339,75 +294,52 @@ public class ConstructSchedule {
         return String.valueOf(availableCourses.get(index));
     }
         public static String chooseSubjectVersion2(int risingGrade, String department){
-        //creating list that contains the courses of the subject currently being chosen
-        List<Course> subjectCourses = getDepartmentList(department);
-        //System.out.println(subjectCourses);
-        //creating list of courses available to particular student to be randomly indexed through to pick class at the end of the method
-        List<Course> availableCourses = new ArrayList<>();
-        List <Course> finalAvailableCourses = new ArrayList <> ();
+        //creating list that contains the courses that fall under the department from the parameter "department"
+        List<Course> availableCourses = getDepartmentList(department);
+        String risingGradeAsStr = "" + risingGrade;
         //going through subjectCourses and seeing what is available to student based on their rising grade (see below)
-            //this loop gets all the available courses based on rising grade, then rest of code we filter out
-        for(int i = 0; i < subjectCourses.size(); i++){
-            //using courses class getter method and comparing to grade; removing classes where they are not in an elegiable grade
-            if(subjectCourses.get(i).getGradesAvailableTo().contains(String.valueOf(risingGrade))){
-                availableCourses.add(subjectCourses.get(i));
+        for(int i = availableCourses.size() -1; i >= 0; i--){
+            // convert gradesAvailableTo for this course object into a string so that the indexOf method can be used
+            String gradesAvailableTo = "";
+            for(int j = 0; j < availableCourses.get(i).getGradesAvailableTo().size(); j++){
+                gradesAvailableTo = gradesAvailableTo + availableCourses.get(i).getGradesAvailableTo().get(j);
+            }
+            // if the risingGradeAsStr is not included, it should be removed
+            if (gradesAvailableTo.indexOf(risingGradeAsStr) == -1){
+                availableCourses.remove(i);
             }
         }
-        System.out.println("after getting availableCourses");
-        //this loop is for filtering availableCourses based on past courses taken & prereqs
-        for (for int i = 0; i < availableCourses.size(); i++){
-            //go to a course object
-            // check if each row contains at least 1 prereq
-            // get prereq map of the current course object
-            Map <Integer, ArrayList <String>> currentCoursePrereqMap = availableCourses.get(i).getPrerequisites();
-            Set <Integer> keysOfPrereqMap = currentCoursePrereqMap.keySet();
-            for ()
-            // if it does, add it to availablecourses 
-        }
-        //calling helper method to choose the random course and return it as a String
-        int index = (int) Math.random()*availableCourses.size();
-        return String.valueOf(availableCourses.get(index));
-    }
-
-        //this loop is for filtering availableCourses based on past courses taken & prereqs
-        for(int i = 0; i<availableCourses.size(); i++){
-            //prereq map for that course
-            Map<Integer, ArrayList<String>> prereqs = availableCourses.get(i).getPrerequisites();
-            //set of the prereq keys
-            Set<Integer> keys = prereqs.keySet();
-            //loop to compare to past transcript/past courses
-            for(int j = 0; j<pastCourses.size(); j++){
-                //removing classes already taken from the available list
-                if(availableCourses.get(i).equals(pastCourses.get(j))){
-                    availableCourses.remove(i);
-                    i--;
-                }
-                for(int ors : keys){
-                    if(!prereqs.get(ors).contains(pastCourses.get(j))){
+        // filter availableCourses based on past courses taken/prereqs
+        // use this big for loop to filter through each course 1 by 1
+        for(int i = availableCourses.size() - 1; i >= 0; i--){
+            Map <Integer, ArrayList <String>> currentPrereqMap =  availableCourses.get(i).getPrerequisites();
+            currentPrereqMap = cleanUpMap(currentPrereqMap);
+            Set <Integer> keysOfCurrentCourseObjPrereqs = currentPrereqMap.keySet();
+            // iterating through the map of prerequisites from the current course object
+            for(Integer key : keysOfCurrentCourseObjPrereqs){
+                // getting the values under the current key in the prereq map of the current object
+                ArrayList <String> currentRowOfPrereqArray = currentPrereqMap.get(key);
+                // if it is an or, check for containing either element of the or, if it doesn't contain one of them, it gets removed
+                if(currentRowOfPrereqArray.size() == 2){
+                    // if pastCourses doesn't contain either of the elements in an "or" row, the course object should be removed
+                    if (!(pastCourses.contains(currentRowOfPrereqArray.get(0)) || pastCourses.contains(currentRowOfPrereqArray.get(1)))){
                         availableCourses.remove(i);
-                        i--;
                     }
                 }
-                //checking if prereqs contain any of the past courses they have taken/vis versa
-                // iterate through all of their past courses
-                // iterate through all of the keys of the prerequisite map 
-                // make sure that each key contains at least ONE prerequisite
-                // if each key contains at least one, the course object is not removed 
+                // if there it is not an or, and pastCourses does not contain it, the current course object should be removed
+                if (currentRowOfPrereqArray.size() == 1 && !pastCourses.contains(currentRowOfPrereqArray.get(0))){
+                    availableCourses.remove(i);
+                }
             }
         }
+        int randomIndex = (int) (Math.random() * availableCourses.size());
+        // if no courses are available in that departemt, indicate that
+        if(availableCourses.size() == 0){
+            return "" + department + ": Sorry, there are no courses available to you for this subject.";
+        }
+        return "" + department + ": " + availableCourses.get(randomIndex).getCourseName();
         //calling helper method to choose the random course and return it as a String
-        int index = (int) Math.random()*availableCourses.size();
-        return String.valueOf(availableCourses.get(index));
-
-        /*questions for the group:
-        - are we hard coding these based on the GA schedule or leaving it more general
-            - ex. technically if I do it by rising grade I could hard code only to pick biology or we could just code a program to do that but it work more generally
-        - is altering scienceCourses going to alter it if the program is run for another student (I dont think so but I want to be sure)
-        - still a little confused about how we are comparing to the prereq map so we'll go over that at the next meet up
-        */
-
-
-
+        }
     //helper method to get the department of the subject we want
     public static ArrayList <Course> getDepartmentList(String department){
         ArrayList <Course> departmentList = new ArrayList<>();
@@ -419,44 +351,33 @@ public class ConstructSchedule {
         return departmentList;
     }
 
-    // public static List<String> generateCoursesNextYear(int risingGrade){
-    //     //generate the courses for next year
-    //     List<String> coursesNextYear = new ArrayList<>();
-    //     //create a list of all of the departments
-    //     List<String> departments = new ArrayList<>(Arrays.asList("Arts", "Science", "History", "Math", "Science", "World Languages", "English"));
-    //     //iterate through each department
-    //     for(String department: departments){
-    //         coursesNextYear.add(chooseSubject(risingGrade, department));
-    //     }
-    //     return coursesNextYear;
-    // }
+    public static void generateCoursesNextYear(int risingGrade){
+        //generate the courses for next year
+        List<String> coursesNextYear = new ArrayList<>();
+        //create a list of all of the departments
+        List<String> departments = new ArrayList<>(Arrays.asList("Arts", "Science", "History", "Math", "Science", "World Languages", "English"));
+        //iterate through each department
+        for(String department: departments){
+            coursesNextYear.add(chooseSubjectVersion2(risingGrade, department));
+        }
+        selectedCourses = coursesNextYear;
+    }
 
-    // public static void generateCoursesAsFile(List <String> coursesList) throws FileNotFoundException {
-    //     //create a file that contains all of the courses for next year
-    //     //input is courses list-the list that was returned containing all of the courses for next year
+    public static void generateCoursesAsFile(List <String> coursesList) throws FileNotFoundException {
+        //create a file that contains all of the courses for next year
+        //input is courses list-the list that was returned containing all of the courses for next year
 
-    //     //string of new file name
-    //     String newFileName = "CoursesNextYear.txt";
+        //string of new file name
+        String newFileName = "CoursesNextYear.txt";
 
-    //     //printstream to add top words to the new file (named string above)
-    //     PrintStream p = new PrintStream(new FileOutputStream(newFileName, true));
-    //     p.println("these are your recommended courses for next year: ");
-    //     // for every course in coursesList add to the printstream on a new line
-    //     for(String course: coursesList){
-    //         p.println(course);
-    //     }
-    //     p.close();
-    // }
+        //printstream to add top words to the new file (named string above)
+        PrintStream p = new PrintStream(new FileOutputStream(newFileName, true));
+        p.println("these are your recommended courses for next year: ");
+        // for every course in coursesList add to the printstream on a new line
+        for(String course: coursesList){
+            p.println(course);
+        }
+        p.close();
+    }
 
 }
-
-/* Departments available:
-- Arts
-- Math
-- English
-- World Language
-- Classics
-- Computer Science + Engineering
-- History
-- Science
-*/
