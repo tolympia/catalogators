@@ -1,17 +1,17 @@
 ﻿Department,Course Name,Prerequiste, Grade Levels
-Arts,AP Music Theory,Intro to Music Theory,"9, 10, 11, 12"
-Arts,Art and Design,none,"9, 10"
-Arts,Honors Ceramics II,Art I or Ceramics I,"9, 10, 11, 12"
-History,AP Art History,"Modern World History, United States History","11, 12"
-History,AP Human Geography,"Modern World History, United States History","11, 12"
-History,Honors Civil Rights,United States History,"11, 12"
-Science,AP Biology,"Honors Biology or Biology, Chemistry or Honors Chemistry","11, 12"
-Science,AP Environmental Science,"Honors Biology or Biology, Chemistry or Honors Chemistry","11, 12"
-Science,Engineering and Robotics,Chemistry or Biology,"11, 12"
-Math,Precalculus Accelerated,Algebra II or Honors Algebra II ,11
-Math,AP Calculus AB,Precalculus Accelerated,12
-World Lanuages,Spanish IV,Spanish III,"11, 12"
-World Lanuages,Honors French IV,Honors French III,"11, 12"
-World Lanuages,Italian III,Italian II,"11, 12"
-English,English XI,none,11
-English,English XII,none,12
+Arts,AP Music Theory,"Intro to Music Theory","9, 10, 11, 12"
+Arts,Art and Design,"none","9, 10"
+Arts,Honors Ceramics II,"Art I or Ceramics I","9, 10, 11, 12"
+History,AP Art History,"Modern World History,United States History","11, 12"
+History,AP Human Geography,"Modern World History,United States History","11, 12"
+History,Honors Civil Rights,"United States History","11, 12"
+Science,AP Biology,"Honors Biology or Biology,Chemistry or Honors Chemistry","11, 12"
+Science,AP Environmental Science,"Honors Biology or Biology,Chemistry or Honors Chemistry","11, 12"
+Science,Engineering and Robotics,"Chemistry or Biology","11, 12"
+Math,Precalculus Accelerated,"Algebra II or Honors Algebra II",11
+Math,AP Calculus AB,"Precalculus Accelerated",12
+World Lanuages,Spanish IV,"Spanish III","11, 12"
+World Lanuages,Honors French IV,"Honors French III","11, 12"
+World Lanuages,Italian III,"Italian II","11, 12"
+English,English XI,"none",11
+English,English XII,"none",12
