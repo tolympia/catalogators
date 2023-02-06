@@ -1,3 +1,39 @@
+<<<<<<< HEAD
+﻿Department,Course Name,Prerequiste, Grade Levels
+Arts,AP Music Theory,Intro to Music Theory,"9, 10, 11, 12"
+Arts,Art and Design,none,"9, 10"
+Arts,Honors Ceramics II,Art I or Ceramics I,"9, 10, 11, 12"
+Arts,Acting I,none,"9, 10, 11, 12"
+Arts,Art I,none,9
+History,AP US History,Modern World History,10
+History,Modern World History,none,9
+History,AP Psychology,none,12
+History,AP Comparative Government & Politics,"Modern World History, United States History","11, 12"
+History,AP Art History,"Modern World History, United States History","11, 12"
+History,AP Human Geography,"Modern World History, United States History","11, 12"
+History,Honors Civil Rights,United States History,"11, 12"
+Science,AP Biology,"Honors Biology or Biology, Chemistry or Honors Chemistry","11, 12"
+Science,AP Environmental Science,"Honors Biology or Biology, Chemistry or Honors Chemistry","11, 12"
+Science,Engineering and Robotics,Chemistry or Biology,"11, 12"
+Science,AP Physics 1,"Honors Chemistry,  Precalculus Accelerated or Algebra II Accelerated or Honors Precalculus or Honors Algebra II","11, 12"
+Science ,Honors Chemistry,Honors Biology,10
+Science,Biology,none,9
+Math,Geometry,none,9
+Math,Algebra II,Geometry or Honors Geometry,10
+Math,Precalculus Accelerated,Algebra II or Honors Algebra II ,11
+Math,AP Calculus AB,Precalculus Accelerated,12
+World Languages,Spanish III,Spanish II,"10, 11"
+World Languages,Spanish IV,Spanish III,"11, 12"
+World Languages,French III,French II,"9, 10"
+World Languages,Honors French III,Honors French II,
+World Languages,Honors French IV,Honors French III,"11, 12"
+World Languages,Italian III,Italian II,"11, 12"
+World Languages,Honors Spanish II,none,"9, 10"
+English,English IX,none,9
+English,English X,none,10
+English,English XI,none,11
+English,English XII,none,12
+=======
 ﻿Department,Course Name,Prerequiste, Grade Levels
 Arts,AP Music Theory,"Intro to Music Theory","9, 10, 11, 12"
 Arts,Art and Design,"none","9, 10"
@@ -15,3 +51,4 @@ World Lanuages,Honors French IV,"Honors French III","11, 12"
 World Lanuages,Italian III,"Italian II","11, 12"
 English,English XI,"none",11
 English,English XII,"none",12
+>>>>>>> 9df1861cc706b8b86cbf2265d5a63e3d8d8be20c
